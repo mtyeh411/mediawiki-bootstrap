@@ -48,6 +48,30 @@
 
 			$this->html( 'headelement' ); ?>
 
+			<!-- ===== Navbar ===== -->
+			<div class="navbar navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container">
+						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</a>
+						<a href="<?php $this->data['nav_urls']['mainpage']['href'];?>" class="brand">
+							<?php if( !isset($this->data['sitename'] )) {
+								global $wgSitename;
+								$this->set( 'sitename', $wgSitename );
+							}?>
+							<?php $this->text( 'sitename' ); ?>
+						</a>
+						<div class="nav-collapse collapse">
+							
+						</div>
+					</div>
+				</div>
+			</div>		
+
+			<!-- ===== Content ===== -->
 			<div class="container-fluid">
 				<div class="row-fluid">
 					<div class="span3">
