@@ -43,6 +43,8 @@
 		*	Outputs the entire context of the page
 		*/
 		public function execute() {
+			global $wgUser;
+		
 			// Suppress warnings to prevent notices about missing indexes in $this->data
 			wfSuppressWarnings();
 
@@ -57,6 +59,8 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</a>
+
+						<!-- Title & logo -->
 						<a href="<?php $this->data['nav_urls']['mainpage']['href'];?>" class="brand">
 							<?php if( !isset($this->data['sitename'] )) {
 								global $wgSitename;
@@ -64,8 +68,25 @@
 							}?>
 							<?php $this->text( 'sitename' ); ?>
 						</a>
-						<div class="nav-collapse collapse">
-							
+
+						<!-- Collapsible nav -->
+						<div class="nav-collapse">
+									<ul class="nav secondary-nav">
+										<li class="dropdown" data-dropdown="dropdown">
+											<a href="#" class="dropdown-toggle">
+												<?php echo $wgUser->getName(); ?>
+											</a>	
+											<ul class="dropdown-menu">
+												<?php foreach( $this->data['personal_urls'] as $item ): ?>
+													<li class="dropdown" data-dropdown="dropdown">
+														<a href="<?php echo htmlspecialchars($item['href']) ?>"<?php echo $item['key']?>>
+															<?php echo htmlspecialchars($item['text']); ?>
+														</a>
+													</li>
+												<?php endforeach; ?>
+											</ul>
+										</li>
+									</ul>
 						</div>
 					</div>
 				</div>
@@ -85,6 +106,8 @@
 							</h1>
 						</div>	
 						<?php $this->html( 'bodycontent' ); ?>
+						<?php $this->html( 'catlinks' ); ?>
+						<?php $this->html( 'dataAfterContent' ); ?>
 						<?php $this->printTrail(); ?>
 					</div>
 				</div>
