@@ -24,13 +24,13 @@
 
 	$wgResourceModules['skins.bootstrap'] = array(
 		'styles' => array(
-			'bootstrap/bootstrap/css/bootstrap.css',
-			'bootstrap/bootstrap/css/bootstrap-responsive.css',
+			'bootstrap/assets/css/bootstrap.css',
+			'bootstrap/assets/css/bootstrap-responsive.css',
 		),
 		'scripts' => array(
-			//'bootstrap/bootstrap/site.js',
-			//'bootstrap/bootstrap/js/bootstrap-tabs.js',
-			'bootstrap/bootstrap/js/bootstrap-dropdown.js',
+			//'bootstrap/assets/site.js',
+			//'bootstrap/assets/js/bootstrap-tabs.js',
+			'bootstrap/assets/js/bootstrap-dropdown.js',
 		),
 		'dependencies' => array(
 			// jquery automatically loaded
