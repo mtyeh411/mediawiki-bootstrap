@@ -1,0 +1,233 @@
+body {
+	        
+	padding-top: 60px;        
+	padding-bottom: 40px;   
+}
+
+.sidebar-nav {        
+	padding: 9px 0;      
+}
+.modal.modalBig {top:5%;left:5%;width:1280px;margin:-20px 0 0 -20px;}
+
+body.page-Home .page-header {
+  display: none;
+}
+
+.printfooter {
+	display: none;
+}
+
+#wpTextbox1 {
+	width: 90%;
+}
+
+.editsection {
+	font-size: 60%;
+}
+
+.fill {
+	border-radius: 3px 3px 3px 3px;
+	background-color: #eee;
+}
+.fill p {
+	margin: 3px;
+	text-align: center;
+}
+.row.demo {
+	margin-bottom: 10px;
+}
+
+b {
+  font-weight: bold;
+}
+
+.topbar {
+  font-size: 13px;
+}
+
+.home h2 {
+  border-bottom: 3px #bbb solid;
+  margin-bottom: 6px;
+}
+
+
+.bottom {
+  padding-top: 30px;
+  background-color: #202020;
+}
+.bottom, .bottom h1, .bottom h2, .bottom h3, .bottom h4, .bottom h5, .bottom h6, .bottom a {
+  color: #f6ebeb;
+}
+
+h1 {
+  font-size: 42px;
+}
+h2 {
+  margin-top: 12px;
+  line-height: 1.3em;
+}
+h3 {
+  margin-bottom: 6px;
+}
+h3, h4, h5, h6 {
+  margin-top: 18px;
+  line-height: 1.3em;
+}
+
+
+body, p {
+  font-size: 16px;
+}
+
+#search .mw-search-formheader, .searchresults .mw-search-createlink {
+  display: none;
+}
+
+
+
+footer {
+  border-top: 1px solid #aaa;
+}
+footer p {
+  font-size: 12px;
+}
+
+.tocnumber {
+	display: none;
+}
+
+@media print {
+.sidebar, footer, .topbar {
+	display: none;
+}
+.container-fluid > .content {
+	margin-left: 0;
+}
+}
+
+
+/**
+  Styles for image alignment
+**/
+.center {
+  text-align: center;
+}
+.floatright {
+  float: right;
+	margin: 0 .5em .5em 0;
+}
+.floatleft {
+  float: left;
+	margin: 0 .5em .5em 0;
+}
+.thumbcaption {
+  font-size: 0.9em;
+}
+
+
+
+/**
+  Styles for editing page form
+**/
+.editOptions label {
+  float: none;
+}
+
+
+/**
+  Hide discussion page link
+**/
+#ca-talk {
+  display: none;
+}
+
+
+/**
+  Custom top bar color
+**/
+
+.topbar div > ul .menu-dropdown, .nav .menu-dropdown, .topbar div > ul .dropdown-menu, .nav .dropdown-menu {
+  background-color: #707070;
+}
+.topbar div > ul .menu-dropdown li a, .nav .menu-dropdown li a, .topbar div > ul .dropdown-menu li a, .nav .dropdown-menu li a {
+  color: #feeded;
+}
+.topbar div > ul .menu-dropdown li a:hover, .nav .menu-dropdown li a:hover, .topbar div > ul .dropdown-menu li a:hover, .nav .dropdown-menu li a:hover {
+  background-color: #C0C0C0;
+  color: #151515;
+}
+.topbar a, .topbar input:-moz-placeholder {
+  color: #feeded;
+}
+.topbar-inner, .topbar .fill {
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#610707), to(#4b0606));
+  background-image: -moz-linear-gradient(top, #610707, #4b0606);
+  background-image: -ms-linear-gradient(top, #610707, #4b0606);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #610707), color-stop(100%, #4b0606));
+  background-image: -webkit-linear-gradient(top, #610707, #4b0606);
+  background-image: -o-linear-gradient(top, #610707, #4b0606);
+  background-image: linear-gradient(top, #610707, #4b0606);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#610707', endColorstr='#4b0606', GradientType=0);
+}
+
+
+/**
+  MediaWiki table of contents
+**/
+	table#toc {
+		width: auto;
+	}
+
+    #toc, .toc, .mw-warning {
+        font-size: 100%;
+        border: 1px solid #AAAAAA;
+        background-color: #F5F5F5;
+        padding: .5em;
+        margin-bottom: 1.2em;
+    }
+
+    .toc {
+        float: right;
+        margin-left: 20px;
+    }
+
+    #toc h2, .toc h2 { 
+        font-size: 110%;
+        border: none; 
+        margin: 0;  /* fix toc top margin */
+        padding-right: .2em; /* margin between title and hide/show link */
+        display: inline;  /* display the hide/show link after Contents */
+    }
+    
+    #toc #toctitle,
+    .toc #toctitle,
+    #toc .toctitle,
+    .toc .toctitle {
+        text-align: left; /* left adjust of title */
+    }
+
+    #toc ul, .toc ul {
+        list-style-type: none;
+        list-style-image: none;
+        margin:  0; 
+        padding: .3em 0 0 .7em; /* margin of the item list */
+        text-align: left;
+    }
+    #toc ul ul, .toc ul ul,
+    #toc ul ul ul, .toc ul ul ul {
+        margin: 0 0 0 .7em; /* toclevel-2 margin */
+    }
+
+    #toc .tocindent   { margin-left: 1em; }
+    #toc .tocline     { margin-bottom: 0; }
+    #toc p            { margin: 0 }
+    #toc .toctoggle   { font-size: 90%; }
+
+    #toc .editsection {
+        margin-top: .3em;
+        font-size: 90%;
+    }
+
+
+
+
