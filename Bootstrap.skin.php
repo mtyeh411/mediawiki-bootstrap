@@ -29,7 +29,6 @@
 		function setupSkinUserCss( OutputPage $out ) {
 			parent::setupSkinUserCss( $out );
 			$out->addModuleStyles( 'skins.bootstrap' );
-			$out->addModuleScripts( 'skins.bootstrap' );
 		}
 	}
 
@@ -43,7 +42,7 @@
 		*	Outputs the entire context of the page
 		*/
 		public function execute() {
-			global $wgUser;
+			global $wgUser, $wgVersion;
 		
 			// Suppress warnings to prevent notices about missing indexes in $this->data
 			wfSuppressWarnings();
@@ -67,16 +66,36 @@
 								$this->set( 'sitename', $wgSitename );
 							}?>
 							<?php $this->text( 'sitename' ); ?>
+<?php echo $wgVersion ?>
 						</a>
+						<!-- /Title & logo -->
 
 						<!-- Collapsible nav -->
 						<div class="nav-collapse">
 									<ul class="nav secondary-nav">
+
+										<!-- MediaWiki:Sidebar links -->
+										<?php foreach( $this->data['sidebar']['navigation'] as $name => $content ) {
+											if( $content == false ) continue;
+											echo "\n<!-- {$name} -->\n"; 
+										?>
+											
+											<li class="dropdown" data-dropdown="dropdown">
+												<a href="<?php echo $content['href']; ?>"
+ class="dropdown-toggle">
+													<?php echo $content['text'];?>
+												</a>
+											<li>
+										<?php } ?>
+										<!-- /MediaWiki:Sidebar links -->
+
+										<!-- user personal tools -->
 										<li class="dropdown" data-dropdown="dropdown">
 											<a href="#" class="dropdown-toggle">
 												<?php echo $wgUser->getName(); ?>
+												<b class="caret"></b>
 											</a>	
-											<ul class="dropdown-menu">
+											<ul class="dropdown-menu no-collapse">
 												<?php foreach( $this->data['personal_urls'] as $item ): ?>
 													<li class="dropdown" data-dropdown="dropdown">
 														<a href="<?php echo htmlspecialchars($item['href']) ?>"<?php echo $item['key']?>>
@@ -86,18 +105,51 @@
 												<?php endforeach; ?>
 											</ul>
 										</li>
+										<!-- /user personal tools -->
+
 									</ul>
 						</div>
+						<!-- /Collapsible nav -->
+
 					</div>
 				</div>
 			</div>		
 
-			<!-- ===== Content ===== -->
+			<!-- ===== Page ===== -->
 			<div class="container-fluid">
 				<div class="row-fluid">
+					
+					<!-- ===== Sidebar ===== -->
 					<div class="span3">
-
+						<ul class="nav nav-pills nav-stacked">
+							<?php foreach( $this->data['sidebar'] as $name => $content ): ?>
+							<?php if( count( $content ) > 0): ?>
+							<li class="dropdown" id=<?php echo Sanitizer::escapeId( "p-$name" ) ?>>
+								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+									<?php echo($name); ?>
+									<b class="caret"></b>
+								</a>
+<!-- <?php print_r($content); ?> -->
+								<ul class="dropdown-menu">
+									<?php foreach( $content as $key => $link ): ?>
+<!-- <?php print_r($link); ?> -->
+									<li>
+										<a href="<?php echo( $link['href'] ); ?>">
+											<?php echo $link['text'] ; ?>
+<!-- <?php echo($link['href']); ?> -->
+										</a>	
+									</li>
+									<?php endforeach; ?>
+								</ul>
+							</li>
+							<?php else: ?>
+								<li><a href="#"><?php echo($name); ?></a></li>
+							<?php endif; ?>
+							<?php endforeach; ?>
+						</ul>
 					</div>
+
+					<!-- ===== Content ===== -->
 					<div class="span9">
 						<div class="page-header">
 							<h1>

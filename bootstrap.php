@@ -26,11 +26,14 @@
 		'styles' => array(
 			'bootstrap/assets/css/bootstrap.css',
 			'bootstrap/assets/css/bootstrap-responsive.css',
+			'bootstrap/assets/css/site.css',
 		),
 		'scripts' => array(
 			//'bootstrap/assets/site.js',
 			//'bootstrap/assets/js/bootstrap-tabs.js',
 			'bootstrap/assets/js/bootstrap-dropdown.js',
+			//'bootstrap/assets/js/bootstrap-transition.js',
+			//'bootstrap/assets/js/bootstrap-collapse.js',
 		),
 		'dependencies' => array(
 			// jquery automatically loaded
