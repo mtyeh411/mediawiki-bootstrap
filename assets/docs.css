@@ -1,0 +1,21 @@
+/**
+* Position body
+*/
+body {
+	position: relative;
+	padding-top: 90px;
+}
+
+@media (max-width: 480px) 
+body {
+	padding-top: 70px;
+}
+@media (max-width: 768px) 
+body {
+	padding-top: 0;
+}
+@media (min-width:768px) and (max-width: 980px) 
+body {
+	padding-top: 0;
+}
+

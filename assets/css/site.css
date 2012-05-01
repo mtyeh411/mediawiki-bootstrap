@@ -1,0 +1,60 @@
+/*
+* update body
+*/
+@media (min-width: 979px) {
+	body {
+		padding-top: 40px;
+	}
+}
+
+
+/** 
+* no-collapse override
+* source: https://gist.github.com/2046174
+*/
+
+            .navbar .pull-right .dropdown-menu:before {
+                left: auto;
+                right: 12px;
+            }
+            .navbar .pull-right .dropdown-menu:after {
+                left: auto;
+                right: 13px;
+            }
+            @media (max-width: 979px) {
+                .navbar .dropdown-menu.no-collapse {
+                    background-color: #ffffff;
+                    border-color: rgba(0, 0, 0, 0.2);
+                    border-radius: 4px;
+                    border-style: solid;
+                    border-width: 1px;
+                    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+                    display: none;
+                    float: left;
+                    margin: 0;
+                    padding: 4px 0;
+                    position: absolute;
+                    top: 100%;
+                }
+                .navbar .dropdown-menu.no-collapse:before,
+                .navbar .dropdown-menu.no-collapse:after {
+                    display: block;
+                }
+                .navbar .dropdown-menu.no-collapse li + li a {
+                    margin-bottom: 0;
+                }
+                .navbar .dropdown-menu.no-collapse .divider {
+                    display: list-item;
+                }
+                .navbar .dropdown-menu.no-collapse a {
+                    border-radius: 0;
+                    color: #333333;
+                    font-weight: normal;
+                    padding: 3px 15px;
+                }
+                .navbar .dropdown-menu.no-collapse a:hover,
+                .navbar .dropdown-menu.no-collapse .active a,
+                .navbar .dropdown-menu.no-collapse .active a:hover {
+                    background-color: #0088cc;
+                    color: #ffffff;
+                }
