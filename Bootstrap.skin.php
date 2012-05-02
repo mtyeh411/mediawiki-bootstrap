@@ -91,7 +91,7 @@
 
 										<!-- user personal tools -->
 										<li class="dropdown" data-dropdown="dropdown">
-											<a href="#" class="dropdown-toggle">
+											<a href="#" data-toggle="dropdown" class="dropdown-toggle">
 												<?php echo $wgUser->getName(); ?>
 												<b class="caret"></b>
 											</a>	
@@ -168,5 +168,6 @@
 			</body>
 			</html>
 			<?php wfRestoreWarnings(); 
-		}
+	BootstrapRenderer::renderSidebar();
 	}
+}

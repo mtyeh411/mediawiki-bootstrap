@@ -20,6 +20,7 @@
 
 	$wgValidSkinNames['bootstrap'] = 'Bootstrap';
 	$wgAutoloadClasses['SkinBootstrap'] = dirname( __FILE__ ).'/Bootstrap.skin.php';
+	$wgAutoloadClasses['BootstrapRenderer'] = dirname( __FILE__ ).'/Bootstrap.renderer.php';
 	$wgExtensionMessagesFiles['Bootstrap'] = dirname( __FILE__ ).'/Bootstrap.i18n.php';
 
 	$wgResourceModules['skins.bootstrap'] = array(
@@ -41,3 +42,17 @@
 		'remoteBasePath' => &$GLOBALS['wgStylePath'],
 		'localBasePath' => &$GLOBALS['wgStyleDirectory'],
 	);	
+
+	
+	$sgNavBarOptions['page'] = 'Bootstrap:Navbar';
+	$sgNavBarOptions['dropdown'] = true; 
+
+	$sgSubNavOptions['page'] = 'Boostrap:Subnav';
+	$sgSubNavOptions['dropdown'] = true;
+	$sgSubNavOptions['type'] = 'tabs'; # tabs, pill, list
+
+	$sgSidebarOptions['page'] = 'Bootstrap:Sidebar';
+	$sgSidebarOptions['dropdown'] = true;
+	$sgSidebarOptions['type'] = 'list'; # tabs, pill, list
+
+	$sgFooterOptions['page'] = 'Bootstrap:Footer';
