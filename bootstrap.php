@@ -44,15 +44,15 @@
 	);	
 
 	
-	$sgNavBarOptions['page'] = 'Bootstrap:Navbar';
-	$sgNavBarOptions['dropdown'] = true; 
+	$sgNavbarOptions['page'] = 'Bootstrap:Navbar';
+	$sgNavbarOptions['dropdown'] = true; 
 
-	$sgSubNavOptions['page'] = 'Boostrap:Subnav';
-	$sgSubNavOptions['dropdown'] = true;
-	$sgSubNavOptions['type'] = 'tabs'; # tabs, pill, list
+	$sgSubnavOptions['page'] = 'Boostrap:Subnav';
+	$sgSubnavOptions['type'] = 'tabs'; # tabs, pill, list
+	$sgSubnavOptions['dropdown'] = true;
 
 	$sgSidebarOptions['page'] = 'Bootstrap:Sidebar';
+	$sgSidebarOptions['type'] = 'pills'; # tabs, pill, list
 	$sgSidebarOptions['dropdown'] = true;
-	$sgSidebarOptions['type'] = 'list'; # tabs, pill, list
 
 	$sgFooterOptions['page'] = 'Bootstrap:Footer';

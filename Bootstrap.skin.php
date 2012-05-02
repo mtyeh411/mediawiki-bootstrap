@@ -121,32 +121,7 @@
 					
 					<!-- ===== Sidebar ===== -->
 					<div class="span3">
-						<ul class="nav nav-pills nav-stacked">
-							<?php foreach( $this->data['sidebar'] as $name => $content ): ?>
-							<?php if( count( $content ) > 0): ?>
-							<li class="dropdown" id=<?php echo Sanitizer::escapeId( "p-$name" ) ?>>
-								<a class="dropdown-toggle" data-toggle="dropdown" href="#">
-									<?php echo($name); ?>
-									<b class="caret"></b>
-								</a>
-<!-- <?php print_r($content); ?> -->
-								<ul class="dropdown-menu">
-									<?php foreach( $content as $key => $link ): ?>
-<!-- <?php print_r($link); ?> -->
-									<li>
-										<a href="<?php echo( $link['href'] ); ?>">
-											<?php echo $link['text'] ; ?>
-<!-- <?php echo($link['href']); ?> -->
-										</a>	
-									</li>
-									<?php endforeach; ?>
-								</ul>
-							</li>
-							<?php else: ?>
-								<li><a href="#"><?php echo($name); ?></a></li>
-							<?php endif; ?>
-							<?php endforeach; ?>
-						</ul>
+						<?php BootstrapRenderer::renderSidebar(); ?>
 					</div>
 
 					<!-- ===== Content ===== -->
@@ -168,6 +143,5 @@
 			</body>
 			</html>
 			<?php wfRestoreWarnings(); 
-	BootstrapRenderer::renderSidebar();
 	}
 }
