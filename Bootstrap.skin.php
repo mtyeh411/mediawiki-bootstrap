@@ -43,6 +43,7 @@
 		*/
 		public function execute() {
 			global $wgUser, $wgVersion;
+			$renderer = new BootstrapRenderer( $this, $this->data );
 		
 			// Suppress warnings to prevent notices about missing indexes in $this->data
 			wfSuppressWarnings();
@@ -50,7 +51,7 @@
 			$this->html( 'headelement' ); ?>
 
 			<!-- ===== Navbar ===== -->
-			<?php BootstrapRenderer::renderNavbar(); ?>
+			<?php $renderer->renderNavbar(); ?>
 
 			<!-- ===== Page ===== -->
 			<div class="container-fluid">
@@ -58,7 +59,7 @@
 					
 					<!-- ===== Sidebar ===== -->
 					<div class="span3">
-						<?php BootstrapRenderer::renderSidebar(); ?>
+						<?php $renderer->renderSidebar(); ?>
 					</div>
 
 					<!-- ===== Content ===== -->

@@ -13,12 +13,25 @@
 
 	class BootstrapRenderer {
 
+	private $skin, $data;
+
+	/*
+	* Constructor
+	*
+	* @param BaseTemplate, Array
+	*/
+	public function __construct( $skin, $data ) {
+		$this->skin = $skin;
+		$this->data = $data;
+	}
+
 	/*
 	* Render sidebar.
+	*
 	*	@return DOMDocument
 	* @ingroup Skins
 	*/
-	public static function renderSidebar() {
+	public function renderSidebar() {
 		global $sgSidebarOptions;
 		$result = false;
 
@@ -31,11 +44,11 @@
 
 		// create dropdowns for nested list items
 		if( $sgSidebarOptions['dropdown'] ) {
-			BootstrapRenderer::renderDropdowns( $doc );
+			$this->renderDropdowns( $doc );
 		}
 	
 		// render special words
-		BootstrapRenderer::renderSpecial( $doc );
+		$this->renderSpecial( $doc );
 
 		$result = $doc->saveXML( $doc->documentElement, true);
 		echo $result;
@@ -43,7 +56,7 @@
 		return $result;
 	}
 
-	public static function renderNavbar() {
+	public function renderNavbar() {
 		global $sgNavbarOptions;
 		$result = false;
 
@@ -74,7 +87,7 @@
 		// create dropdowns DOM fragment
 		$dropdownFrag= $doc->createDocumentFragment();
 		$dropdownFrag->appendXML( $out->getText() );
-$dropdownFrag->firstChild->setAttribute('class', 'nav');
+		$dropdownFrag->firstChild->setAttribute('class', 'nav');
 
 		// insert fragment into DOM document
 		$finder = new DOMXPath( $doc );
@@ -83,11 +96,11 @@ $dropdownFrag->firstChild->setAttribute('class', 'nav');
 
 		// create dropdowns for nested list items
 		if( $sgNavbarOptions['dropdown'] ) {
-			BootstrapRenderer::renderDropdowns( $doc );
+			$this->renderDropdowns( $doc );
 		}
 
 		// render special words
-		// BootstrapRenderer::renderSpecial( $doc );
+		// $this->renderSpecial( $doc );
 
 		$result = $doc->saveXML( $doc->documentElement, true);
 		echo $result;
@@ -119,39 +132,68 @@ $dropdownFrag->firstChild->setAttribute('class', 'nav');
 	public function renderSpecial( $doc ) { 
 		$finder = new DOMXPath( $doc );
 		$headerTextNodes = $finder->query( '//ul[contains(@class,"nav")]/li/text()' );
-		foreach( $headerTextNodes as $headerText ) {
-			switch( trim($headerText->nodeValue) ) {
+		foreach( $headerTextNodes as $headerTextNode ) {
+			switch( trim( $headerTextNode->nodeValue ) ) {
 				case 'SEARCH':
-					// TODO replace TextNode with form
-					//print $GLOBALS['wgScript'];
+					$fragment= $this->renderSearch( $doc );
 					break;
-				case 'TOOLBOX':
-					// TODO
-					break;
+				case 'TOOLBOX': 
+					$fragment= $this->renderPortal( $doc, $this->skin->getToolbox() );
 				case 'LANGUAGES':
-					// TODO
+					$fragment = $this->renderPortal( $doc, $this->skin->data['language_urls'] );
 					break;
 				default:
 					break;
 			}
+			
+			if( $fragment instanceof DOMNode ) 
+				$headerTextNode->parentNode->replaceChild( $fragment, $headerTextNode );
 		}
 	}
 
 	/**
 	* Render search form.
+	*
 	*	@param DOMDocument
+	* @return DOMDocumentFragment
 	* @ingroup Skins
 	*/
-	public function renderSearch() { ?>
-		<form action="<?php $this->text('wgScript')?>" 
-					class="navbar-search pull-left">
-		<?php echo $this->makeSearchInput( array(
-			'id'=>'searchInput', 
-			'class'=>'search-query', 
-			'placeholder'=>'Search')); 
-		?>		
-		</form>
-	<?php }
+	private function renderSearch( $doc ) { 
+		$fragment = $doc->createDocumentFragment();
+
+		$fragment->appendXml(
+		'<form action="' . $GLOBALS['wgScript'] .
+				'" class="search pull-left">' .
+				$this->skin->makeSearchInput( array(
+				'id'=>'searchInput', 
+				'class'=>'search-query', 
+				'placeholder'=>'Search')) 
+		.	'</form>' );
+
+		return $fragment;
+	}
+
+	/**
+	* Render special word portals.
+	*
+	* @param DOMDocument
+	* @return DOMDocumentFragment
+	* @ingroup Skins
+	*/
+	private function renderPortal( $doc, $links ) {
+		$fragment = $doc->createDocumentFragment();
+		
+		if( is_array( $links ) ) {
+			$xml = '<ul>';
+			foreach( $links as $key => $val ) {
+				$xml .= $this->skin->makeListItem( $key, $val );
+			}
+			$xml .= '</ul>';
+		}
+		$fragment->appendXml( $xml );
+
+		return $fragment;
+	}
 
 	/**
 	* Render the dropdown list items and dropdown sub-menus
@@ -176,11 +218,11 @@ $dropdownFrag->firstChild->setAttribute('class', 'nav');
 			$existingAnchor = $finder->query( $dropdownMenu->getNodePath() . '/../a' )->item(0);
 			if( $existingAnchor ) {
 				// replace anchor with toggle anchor
-				BootstrapRenderer::makeTogglable( $existingAnchor );
+				$this->makeTogglable( $existingAnchor );
 			} else {
 				// insert new toggle anchor
 				$textNode = $finder->query( $dropdownMenu->getNodePath() . '/../text()')->item(0);
-				$toggle = BootstrapRenderer::renderToggleAnchor( $doc, $textNode->nodeValue );
+				$toggle = $this->renderToggleAnchor( $doc, $textNode->nodeValue );
 				$dropdownMenu->parentNode->replaceChild( $toggle, $textNode );
 			}
 		}
@@ -198,7 +240,7 @@ $dropdownFrag->firstChild->setAttribute('class', 'nav');
 			$fragment = $doc->createDocumentFragment();		
 
 			$anchor = $doc->createElement( 'a', $text );
-			BootstrapRenderer::makeTogglable( $anchor );
+			$this->makeTogglable( $anchor );
 			
 			// TODO add caret to anchor
 			$caret = $doc->createElement( 'b' );
