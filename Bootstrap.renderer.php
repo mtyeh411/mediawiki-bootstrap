@@ -42,14 +42,14 @@
 		$doc = DOMDocument::loadXML( $out->getText() );
 		$doc->documentElement->setAttribute('class','nav nav-stacked nav-' . $sgSidebarOptions['type']	);
 
+		// render special words
+		$this->renderSpecial( $doc );
+
 		// create dropdowns for nested list items
 		if( $sgSidebarOptions['dropdown'] ) {
 			$this->renderDropdowns( $doc );
 		}
 	
-		// render special words
-		$this->renderSpecial( $doc );
-
 		$result = $doc->saveXML( $doc->documentElement, true);
 		echo $result;
 
@@ -94,13 +94,13 @@
 		$placeholder = $finder->query('//div[contains(@class,"nav-collapse")]')->item(0);
 		$placeholder->appendChild( $dropdownFrag );
 
+		// render special words
+		$this->renderSpecial( $doc );
+
 		// create dropdowns for nested list items
 		if( $sgNavbarOptions['dropdown'] ) {
 			$this->renderDropdowns( $doc );
 		}
-
-		// render special words
-		// $this->renderSpecial( $doc );
 
 		$result = $doc->saveXML( $doc->documentElement, true);
 		echo $result;
@@ -136,18 +136,23 @@
 			switch( trim( $headerTextNode->nodeValue ) ) {
 				case 'SEARCH':
 					$fragment= $this->renderSearch( $doc );
+					$headerTextNode->parentNode->replaceChild( $fragment, $headerTextNode );
 					break;
 				case 'TOOLBOX': 
 					$fragment= $this->renderPortal( $doc, $this->skin->getToolbox() );
+					$headerTextNode->parentNode->appendChild( $fragment );
+					break;
 				case 'LANGUAGES':
-					$fragment = $this->renderPortal( $doc, $this->skin->data['language_urls'] );
+					if( $this->skin->data['language_urls'] ) {
+						$fragment = $this->renderPortal( $doc, $this->skin->data['language_urls'] );
+						$headerTextNode->parentNode->appendChild( $fragment );
+					} else 
+						$headerTextNode->parentNode->removeChild( $headerTextNode );
 					break;
 				default:
 					break;
 			}
-			
-			if( $fragment instanceof DOMNode ) 
-				$headerTextNode->parentNode->replaceChild( $fragment, $headerTextNode );
+
 		}
 	}
 
