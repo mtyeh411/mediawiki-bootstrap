@@ -15,7 +15,7 @@
 
 	/*
 	* Render sidebar.
-	*
+	*	@return DOMDocument
 	* @ingroup Skins
 	*/
 	public static function renderSidebar() {
@@ -23,8 +23,7 @@
 		$result = false;
 
 		// get HTML-parsed MediaWiki page
-		//$out = BootstrapRenderer::parsePage( $sgSidebarOptions['page'] );
-		$out = BootstrapRenderer::parsePage( 'MediaWiki:Sidebar' );
+		$out = BootstrapRenderer::parsePage( $sgSidebarOptions['page'] );
 
 		// generate DOM from HTML-parsed MediaWiki page
 		$doc = DOMDocument::loadXML( $out->getText() );
@@ -34,6 +33,61 @@
 		if( $sgSidebarOptions['dropdown'] ) {
 			BootstrapRenderer::renderDropdowns( $doc );
 		}
+	
+		// render special words
+		BootstrapRenderer::renderSpecial( $doc );
+
+		$result = $doc->saveXML( $doc->documentElement, true);
+		echo $result;
+
+		return $result;
+	}
+
+	public static function renderNavbar() {
+		global $sgNavbarOptions;
+		$result = false;
+
+		// generate DOM from boilerplate HTML
+		$doc = DOMDocument::loadXML('
+			<div class="navbar">
+				<div class="navbar-inner">
+					<div class="container">
+						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+							<span class="icon-bar"> </span>
+							<span class="icon-bar"> </span>
+							<span class="icon-bar"> </span>
+						</a>
+
+						<!-- Title & logo -->
+						<a class="brand" href="#">' . $GLOBALS['wgSitename'] . '</a>
+
+					<!-- Collapsible nav -->
+						<div class="nav-collapse">
+						</div>
+					</div>
+				</div>
+			</div>');
+
+		// get HTML-parsed MediaWiki page
+		$out = BootstrapRenderer::parsePage( $sgNavbarOptions['page'] );
+
+		// create dropdowns DOM fragment
+		$dropdownFrag= $doc->createDocumentFragment();
+		$dropdownFrag->appendXML( $out->getText() );
+$dropdownFrag->firstChild->setAttribute('class', 'nav');
+
+		// insert fragment into DOM document
+		$finder = new DOMXPath( $doc );
+		$placeholder = $finder->query('//div[contains(@class,"nav-collapse")]')->item(0);
+		$placeholder->appendChild( $dropdownFrag );
+
+		// create dropdowns for nested list items
+		if( $sgNavbarOptions['dropdown'] ) {
+			BootstrapRenderer::renderDropdowns( $doc );
+		}
+
+		// render special words
+		// BootstrapRenderer::renderSpecial( $doc );
 
 		$result = $doc->saveXML( $doc->documentElement, true);
 		echo $result;
@@ -42,8 +96,50 @@
 	}
 
 	/**
-	* Render search form.
+	* Parse the wikitext page to HTML.
 	*
+	* @params String
+	* @return String
+	* @ingroup Skins
+	*/
+	private function parsePage( $page ) {
+		global $wgParser, $wgUser;
+		$pageTitle = Title::newFromText( $page ); 
+		$article = new Article( $pageTitle ); 
+		$raw = $article->getRawText();
+		return $wgParser->parse( $raw, $pageTitle, ParserOptions::newFromUser($wgUser));
+	}
+
+	/**
+	*	Render special reserved Wiki words.
+	*
+	*	@param DOMDocument
+	* @ingroup Skins
+	*/
+	public function renderSpecial( $doc ) { 
+		$finder = new DOMXPath( $doc );
+		$headerTextNodes = $finder->query( '//ul[contains(@class,"nav")]/li/text()' );
+		foreach( $headerTextNodes as $headerText ) {
+			switch( trim($headerText->nodeValue) ) {
+				case 'SEARCH':
+					// TODO replace TextNode with form
+					//print $GLOBALS['wgScript'];
+					break;
+				case 'TOOLBOX':
+					// TODO
+					break;
+				case 'LANGUAGES':
+					// TODO
+					break;
+				default:
+					break;
+			}
+		}
+	}
+
+	/**
+	* Render search form.
+	*	@param DOMDocument
 	* @ingroup Skins
 	*/
 	public function renderSearch() { ?>
@@ -58,80 +154,92 @@
 	<?php }
 
 	/**
-	* Parse the wikitext page to HTML.
-	*
-	* @params String
-	* @ingroup Skins
-	*/
-	private function parsePage( $page ) {
-		global $wgParser, $wgUser;
-		$pageTitle = Title::newFromText( $page ); 
-		$article = new Article( $pageTitle ); 
-		$raw = $article->getRawText();
-		return $wgParser->parse( $raw, $pageTitle, ParserOptions::newFromUser($wgUser));
-	}
-
-	/**
 	* Render the dropdown list items and dropdown sub-menus
 	*
 	* @params DOMDocument
+	* @return DOMDocumentFragment
 	* @ingroup Skins
 	*/
 	private function renderDropdowns( $doc ) {
-		$xpath = new DOMXPath( $doc );
-		$dropdownQuery = '/ul[1]/li';
-		$dropdownTextQuery = '/ul[1]/li/text()'; // from dropdownQuery context
-		$dropdownMenuQuery = '/ul[1]/li/ul';
+		$finder = new DOMXPath( $doc );
+		$dropdownMenuPath = '//ul[contains(@class,"nav")]/li/ul';
 			
-		$dropdowns = $xpath->query( $dropdownQuery );
-		$i = 1;
-		foreach( $dropdowns as $dropdown ) {
-			$dropdown->setAttribute('class', 'dropdown');
-			$textNodes = $xpath->query( $dropdownQuery . '[' . $i . ']/text()[1]');
-			$textNode = $textNodes->item(0);
-			$textValue = $textNode->nodeValue;
-			$toggle = BootstrapRenderer::renderToggleAnchor( $doc, $textValue );
-			$dropdown->replaceChild( $toggle, $textNode );
-			$i++;
+		// create togglable dropdown menus
+		$dropdownMenus = $finder->query( $dropdownMenuPath );
+		foreach( $dropdownMenus as $dropdownMenu ) {
+
+			// create dropdown menu
+			$dropdownMenu->setAttribute( 'class', 'dropdown-menu' );
+			$dropdownMenu->parentNode->setAttribute( 'class', 'dropdown' );
+
+			// add toggle anchor to document
+			$existingAnchor = $finder->query( $dropdownMenu->getNodePath() . '/../a' )->item(0);
+			if( $existingAnchor ) {
+				// replace anchor with toggle anchor
+				BootstrapRenderer::makeTogglable( $existingAnchor );
+			} else {
+				// insert new toggle anchor
+				$textNode = $finder->query( $dropdownMenu->getNodePath() . '/../text()')->item(0);
+				$toggle = BootstrapRenderer::renderToggleAnchor( $doc, $textNode->nodeValue );
+				$dropdownMenu->parentNode->replaceChild( $toggle, $textNode );
+			}
 		}
 
-		$dropdownMenus = $xpath->query( $dropdownMenuQuery );
-		foreach( $dropdownMenus as $dropdownMenu ) {
-			$dropdownMenu->setAttribute('class', 'dropdown-menu');
-		}
 	}
 
 	/**
 	* Render the dropdown toggle anchor.  
 	* @param DOMDocument, String
+	* @return DOMDocumentFragment
 	* @ingroup Skins
 	*/
 	private function renderToggleAnchor( $doc, $text ) {
 		if( $doc instanceof DOMDocument ) {
-			$toggle = $doc->createElement( 'a', $text );
-			$toggle->setAttribute( 'class', 'dropdown-toggle' );
-			$toggle->setAttribute( 'data-toggle', 'dropdown' );
-			$toggle->setAttribute( 'href', '#' );
+			$fragment = $doc->createDocumentFragment();		
 
+			$anchor = $doc->createElement( 'a', $text );
+			BootstrapRenderer::makeTogglable( $anchor );
+			
+			// TODO add caret to anchor
 			$caret = $doc->createElement( 'b' );
-			$caret->setAttribute('class', 'caret' );
+			$caret->setAttribute( 'class', 'caret' );
 
-			//$toggle->appendChild( $caret );
-		} else $toggle = null;
+			$fragment->appendChild( $anchor );
 
-		return $toggle;
+		} else $fragment = null;
+
+		return $fragment;
 	}
+
+	/**
+	* Make an anchor node togglable for dropdown menu
+	* @param DOMNode
+	* @ingroup Skins
+	*/
+	private function makeTogglable( $node ) {
+		if( $node instanceof DOMNode ) {
+			$node->setAttribute( 'class', 'dropdown-toggle' );
+			$node->setAttribute( 'data-toggle', 'dropdown' );
+			$node->setAttribute( 'href', '#' );
+		}
+	}	
 
 	/**
 	* Print a DOM node (for debugging).
 	* @param DOMNode
+	*	@return String
 	* @ingroup Skins
 	*/
-	private function printNode( $node ) {
+	private function toString( $node ) {
 		if( $node instanceof DOMNode ) {
-			print '<br/>' . get_class($node) . ' ( at ' .
-						$node->getNodePath() . '): ' . $node->nodeValue; 
+			$string = '<br/><span style="color:blue">' . $node->getNodePath() . '</span>: ' . $node->nodeValue; 
+			if( $node->hasChildNodes() ) {
+				foreach( $node->childNodes as $child ) {
+					$string .= '<br/>' . BootstrapRenderer::toString( $child );
+				}
+			}
 		}
+		return $string;
 	}
 
 }

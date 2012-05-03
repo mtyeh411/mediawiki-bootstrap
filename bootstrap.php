@@ -48,11 +48,11 @@
 	$sgNavbarOptions['dropdown'] = true; 
 
 	$sgSubnavOptions['page'] = 'Boostrap:Subnav';
-	$sgSubnavOptions['type'] = 'tabs'; # tabs, pill, list
+	$sgSubnavOptions['type'] = 'tabs'; # tabs, pills, list
 	$sgSubnavOptions['dropdown'] = true;
 
 	$sgSidebarOptions['page'] = 'Bootstrap:Sidebar';
-	$sgSidebarOptions['type'] = 'pills'; # tabs, pill, list
+	$sgSidebarOptions['type'] = 'pills'; # tabs, pills, list
 	$sgSidebarOptions['dropdown'] = true;
 
 	$sgFooterOptions['page'] = 'Bootstrap:Footer';
