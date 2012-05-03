@@ -13,7 +13,7 @@
 
 	class BootstrapRenderer {
 
-	private $skin, $data;
+	private $skin, $data, $doc;
 
 	/*
 	* Constructor
@@ -39,18 +39,22 @@
 		$out = BootstrapRenderer::parsePage( $sgSidebarOptions['page'] );
 
 		// generate DOM from HTML-parsed MediaWiki page
-		$doc = DOMDocument::loadXML( $out->getText() );
-		$doc->documentElement->setAttribute('class','nav nav-stacked nav-' . $sgSidebarOptions['type']	);
+		$this->doc = DOMDocument::loadXML( $out->getText() );
+		$this->doc->documentElement->setAttribute('class','nav nav-stacked nav-' . $sgSidebarOptions['type']	);
 
 		// render special words
-		$this->renderSpecial( $doc );
+		$this->renderSpecial();
 
 		// create dropdowns for nested list items
 		if( $sgSidebarOptions['dropdown'] ) {
-			$this->renderDropdowns( $doc );
+			// make header list items togglable
+			$this->makePathTogglable('/ul[1]/li/a', 'a');
+			$this->makePathTogglable('/ul[1]/li/text()', 'a');
+
+			$this->renderDropdowns();
 		}
 	
-		$result = $doc->saveXML( $doc->documentElement, true);
+		$result = $this->doc->saveXML( $doc->documentElement, true);
 		echo $result;
 
 		return $result;
@@ -61,7 +65,7 @@
 		$result = false;
 
 		// generate DOM from boilerplate HTML
-		$doc = DOMDocument::loadXML('
+		$this->doc = DOMDocument::loadXML('
 			<div class="navbar">
 				<div class="navbar-inner">
 					<div class="container">
@@ -85,24 +89,33 @@
 		$out = BootstrapRenderer::parsePage( $sgNavbarOptions['page'] );
 
 		// create dropdowns DOM fragment
-		$dropdownFrag= $doc->createDocumentFragment();
+		$dropdownFrag= $this->doc->createDocumentFragment();
 		$dropdownFrag->appendXML( $out->getText() );
 		$dropdownFrag->firstChild->setAttribute('class', 'nav');
 
 		// insert fragment into DOM document
-		$finder = new DOMXPath( $doc );
-		$placeholder = $finder->query('//div[contains(@class,"nav-collapse")]')->item(0);
-		$placeholder->appendChild( $dropdownFrag );
+		$finder = new DOMXPath( $this->doc );
+		$navCollapse = $finder->query('//div[contains(@class,"nav-collapse")]')->item(0);
+		$navCollapse->appendChild( $dropdownFrag );
 
 		// render special words
-		$this->renderSpecial( $doc );
+		$this->renderSpecial();
+
+		// append user tools
+		$userButton = $this->renderUserButton();
+		$userTools = $this->renderUserTools();
+		$navCollapse->parentNode->insertBefore( $userButton, $navCollapse );
+		$button = $finder->query( '//div[@id="user"]' );
+		$button->item(0)->appendChild( $userTools );
 
 		// create dropdowns for nested list items
 		if( $sgNavbarOptions['dropdown'] ) {
-			$this->renderDropdowns( $doc );
+			$this->makePathTogglable('//ul[contains(@class,"nav")]/li/a', 'a');
+			$this->makePathTogglable('//ul[contains(@class,"nav")]/li/text()', 'a');
+			$this->renderDropdowns();
 		}
 
-		$result = $doc->saveXML( $doc->documentElement, true);
+		$result = $this->doc->saveXML( $doc->documentElement, true);
 		echo $result;
 
 		return $result;
@@ -124,27 +137,26 @@
 	}
 
 	/**
-	*	Render special reserved Wiki words.
+	*	Render special Wiki words from Navbar & Sidebar pages.
 	*
-	*	@param DOMDocument
 	* @ingroup Skins
 	*/
-	public function renderSpecial( $doc ) { 
-		$finder = new DOMXPath( $doc );
+	public function renderSpecial() { 
+		$finder = new DOMXPath( $this->doc );
 		$headerTextNodes = $finder->query( '//ul[contains(@class,"nav")]/li/text()' );
 		foreach( $headerTextNodes as $headerTextNode ) {
 			switch( trim( $headerTextNode->nodeValue ) ) {
 				case 'SEARCH':
-					$fragment= $this->renderSearch( $doc );
+					$fragment= $this->renderSearch();
 					$headerTextNode->parentNode->replaceChild( $fragment, $headerTextNode );
 					break;
 				case 'TOOLBOX': 
-					$fragment= $this->renderPortal( $doc, $this->skin->getToolbox() );
+					$fragment= $this->renderDataLinks( $this->skin->getToolbox() );
 					$headerTextNode->parentNode->appendChild( $fragment );
 					break;
 				case 'LANGUAGES':
 					if( $this->skin->data['language_urls'] ) {
-						$fragment = $this->renderPortal( $doc, $this->skin->data['language_urls'] );
+						$fragment = $this->renderDataLinks( $this->skin->data['language_urls'] );
 						$headerTextNode->parentNode->appendChild( $fragment );
 					} else 
 						$headerTextNode->parentNode->removeChild( $headerTextNode );
@@ -159,16 +171,15 @@
 	/**
 	* Render search form.
 	*
-	*	@param DOMDocument
 	* @return DOMDocumentFragment
 	* @ingroup Skins
 	*/
-	private function renderSearch( $doc ) { 
-		$fragment = $doc->createDocumentFragment();
+	private function renderSearch() { 
+		$fragment = $this->doc->createDocumentFragment();
 
 		$fragment->appendXml(
 		'<form action="' . $GLOBALS['wgScript'] .
-				'" class="search pull-left">' .
+				'" class="search">' .
 				$this->skin->makeSearchInput( array(
 				'id'=>'searchInput', 
 				'class'=>'search-query', 
@@ -179,14 +190,47 @@
 	}
 
 	/**
-	* Render special word portals.
+	* Render user button.
 	*
-	* @param DOMDocument
+	* @return DOMDocumentFragment
+	*	@ingroup Skins
+	*/
+	private function renderUserButton() {
+		$fragment = $this->doc->createDocumentFragment();
+
+		$fragment->appendXml(
+			'<div id="user" class="btn-group pull-right">' .
+				'<button class="btn btn-success">' . 
+					'<i class="icon-user icon-white"> </i>' .
+					$GLOBALS['wgUser'] .
+				'</button>' .
+				'<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">' .
+					'<span class="caret"> </span>' .
+				'</button>' .
+			'</div>'
+		);
+
+		return $fragment;
+	}
+
+	private function renderUserTools() {
+		// create document fragment of user tool list items 
+		$userTools = $this->skin->getPersonalTools();
+array_shift($userTools);
+		$fragment = $this->renderDataLinks( $userTools );
+
+		return $fragment;
+	}	
+
+	/**
+	* Render Wiki link array to lists.
+	*
+	* @param Array
 	* @return DOMDocumentFragment
 	* @ingroup Skins
 	*/
-	private function renderPortal( $doc, $links ) {
-		$fragment = $doc->createDocumentFragment();
+	private function renderDataLinks( $links ) {
+		$fragment = $this->doc->createDocumentFragment();
 		
 		if( is_array( $links ) ) {
 			$xml = '<ul>';
@@ -203,13 +247,13 @@
 	/**
 	* Render the dropdown list items and dropdown sub-menus
 	*
-	* @params DOMDocument
 	* @return DOMDocumentFragment
 	* @ingroup Skins
 	*/
-	private function renderDropdowns( $doc ) {
-		$finder = new DOMXPath( $doc );
-		$dropdownMenuPath = '//ul[contains(@class,"nav")]/li/ul';
+	private function renderDropdowns() {
+		$finder = new DOMXPath( $this->doc );
+//$dropdownMenuPath = '//ul[contains(@class,"nav")]/li/ul';
+		$dropdownMenuPath = '//*[contains(@class,"dropdown-toggle")]/../ul';
 			
 		// create togglable dropdown menus
 		$dropdownMenus = $finder->query( $dropdownMenuPath );
@@ -217,38 +261,90 @@
 
 			// create dropdown menu
 			$dropdownMenu->setAttribute( 'class', 'dropdown-menu' );
-			$dropdownMenu->parentNode->setAttribute( 'class', 'dropdown' );
 
-			// add toggle anchor to document
-			$existingAnchor = $finder->query( $dropdownMenu->getNodePath() . '/../a' )->item(0);
-			if( $existingAnchor ) {
-				// replace anchor with toggle anchor
-				$this->makeTogglable( $existingAnchor );
-			} else {
-				// insert new toggle anchor
-				$textNode = $finder->query( $dropdownMenu->getNodePath() . '/../text()')->item(0);
-				$toggle = $this->renderToggleAnchor( $doc, $textNode->nodeValue );
-				$dropdownMenu->parentNode->replaceChild( $toggle, $textNode );
-			}
+			// set parent node attributes if needed 
+			if( $dropdownMenu->parentNode->nodeName == 'li' ) 
+				$dropdownMenu->parentNode->setAttribute( 'class', 'dropdown' );
+
 		}
 
 	}
 
+	private function makePathTogglable( $path, $tagType ) {
+		$finder = new DOMXPath( $this->doc );
+
+		foreach( $finder->query( $path ) as $header ) {
+			
+			// get the single text value 
+			if( $header->nodeType != 3 ) { // if not a textnode
+				$headerText = $finder->query( $path . '/text()')->item(0);
+				$headerTextValue = $headerText->nodeValue;
+			} else
+				$headerTextValue = $header->nodeValue;
+
+			// only toggle nodes with sibling lists 
+			$ulSiblings = $finder->query( $header->getNodePath() . '/../ul' );
+			if( $ulSiblings->length > 0 )
+				$this->makeTogglable( $header, $headerTextValue, $tagType );
+		}
+
+	}
+
+
+	private function makeTogglable( $node, $text, $tagType) {
+		if( $node instanceof DOMNode ) {
+			// if node tag is not the same as 
+			//if( $node->nodeName != $tagType ) {
+				if(	$this->doc instanceof DOMDocument &&
+						trim($node->nodeValue) != '') {
+					$fragment = $this->doc->createDocumentFragment();		
+
+					$fragment->appendXml(
+						'<' . $tagType . ' class="dropdown-toggle" data-toggle="dropdown" href="#">' .
+						$text .
+						'<i class="caret"> </i>' .
+						'</' . $tagType . '>'
+					);
+	
+					// replace node with $fragment
+					$node->parentNode->replaceChild( $fragment, $node );
+				}
+			} //else {
+				//$this->setToggleAttrs( $node );
+			//}
+		//}
+	}	
+
 	/**
-	* Render the dropdown toggle anchor.  
-	* @param DOMDocument, String
+	* DEPRECATE?: Make a node togglable for dropdown menu
+	*
+	* @param DOMNode
+	* @ingroup Skins
+	*/
+	private function setToggleAttrs( $node ) {
+		if( $node instanceof DOMNode ) {
+			$node->setAttribute( 'class', 'dropdown-toggle' );
+			$node->setAttribute( 'data-toggle', 'dropdown' );
+			$node->setAttribute( 'href', '#' );
+		}
+	}	
+
+	/**
+	* TODO DEPRECATE: Render the dropdown toggle anchor.  
+	*
+	* @param String
 	* @return DOMDocumentFragment
 	* @ingroup Skins
 	*/
-	private function renderToggleAnchor( $doc, $text ) {
-		if( $doc instanceof DOMDocument ) {
-			$fragment = $doc->createDocumentFragment();		
+	private function makeToggleAnchor( $text ) {
+		if( $this->doc instanceof DOMDocument ) {
+			$fragment = $this->doc->createDocumentFragment();		
 
-			$anchor = $doc->createElement( 'a', $text );
-			$this->makeTogglable( $anchor );
+			$anchor = $this->doc->createElement( 'a', $text );
+			$this->setToggleAttrs( $anchor );
 			
 			// TODO add caret to anchor
-			$caret = $doc->createElement( 'b' );
+			$caret = $this->doc->createElement( 'b' );
 			$caret->setAttribute( 'class', 'caret' );
 
 			$fragment->appendChild( $anchor );
@@ -258,18 +354,6 @@
 		return $fragment;
 	}
 
-	/**
-	* Make an anchor node togglable for dropdown menu
-	* @param DOMNode
-	* @ingroup Skins
-	*/
-	private function makeTogglable( $node ) {
-		if( $node instanceof DOMNode ) {
-			$node->setAttribute( 'class', 'dropdown-toggle' );
-			$node->setAttribute( 'data-toggle', 'dropdown' );
-			$node->setAttribute( 'href', '#' );
-		}
-	}	
 
 	/**
 	* Print a DOM node (for debugging).
@@ -277,12 +361,12 @@
 	*	@return String
 	* @ingroup Skins
 	*/
-	private function toString( $node ) {
+	private function NodeToString( $node ) {
 		if( $node instanceof DOMNode ) {
 			$string = '<br/><span style="color:blue">' . $node->getNodePath() . '</span>: ' . $node->nodeValue; 
 			if( $node->hasChildNodes() ) {
 				foreach( $node->childNodes as $child ) {
-					$string .= '<br/>' . BootstrapRenderer::toString( $child );
+					$string .= '<br/>' . BootstrapRenderer::NodeToString( $child );
 				}
 			}
 		}

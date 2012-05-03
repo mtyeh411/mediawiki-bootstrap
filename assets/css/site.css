@@ -1,3 +1,14 @@
+
+/*
+* icon paddings
+*/
+.icon-user {
+	margin-right: 4px;
+}
+.caret {
+ 	margin-left: 4px;
+}
+
 /*
 * pad headings
 */
