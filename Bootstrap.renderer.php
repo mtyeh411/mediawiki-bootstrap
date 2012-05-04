@@ -43,7 +43,7 @@
 		$this->doc->documentElement->setAttribute('class','nav nav-stacked nav-' . $sgSidebarOptions['type']	);
 
 		// render special words
-		$this->renderSpecial();
+		$this->buildSpecial();
 
 		// create dropdowns for nested list items
 		if( $sgSidebarOptions['dropdown'] ) {
@@ -99,16 +99,64 @@
 		$navCollapse->appendChild( $dropdownFrag );
 
 		// render special words
-		$this->renderSpecial();
+		$this->buildSpecial();
 		$searchBar = $finder->query('//form[contains(@class,"search")]')->item(0);
 		if( $searchBar ) $searchBar->setAttribute('class', 'navbar-search' );
 
-		// append user tools
-		$userButton = $this->renderUserButton();
+		// create page button
+		$pageBtn = array(
+			'tag' => 'button',
+			'attr' => array('class' => 'btn btn-info dropdown-toggle pull-right',
+											'data-toggle' => 'dropdown',
+											'href' => '#'),
+			'children' => array(
+				'icon' => array( 'attr' => array('class' => 'icon-file icon-white' )),
+				'span' => array( 'attr' => array('class' => 'caret' ) )
+			)
+		);
+		$pageButton = $this->renderButtonGroup( 
+			array('class'=>'pull-right', 'id' => 'page' ), 
+			array( $pageBtn ) 
+		);
+
+		$navCollapse->parentNode->insertBefore( $pageButton, $navCollapse );
+		$pageTools = $this->renderDataLinks( $this->skin->data['content_actions'] );
+		$pageToggle = $finder->query( '//div[@id="page"]' );
+		if( $pageToggle ) 
+			$pageToggle ->item(0)->appendChild( $pageTools );
+
+		// create user button
+		$userBtn = array(
+			'tag' => 'button',
+			'attr' => array('class' => 'btn btn-warning' ),
+			'children' => array(
+				'icon' => array( 'attr'=>array('class' => 'icon-user icon-white' )),
+			)
+		);
+		$caretBtn = array(
+			'tag' => 'button',
+			'attr' => array('class' => 'btn btn-warning dropdown-toggle', 
+											'data-toggle'=>'dropdown'),
+			'children' => array(
+				'span' => array( 'attr' => array('class' => 'caret' ) )
+			)
+		); 
+		$userButtonGroup = $this->renderButtonGroup( 
+			array( 'class' => 'pull-right', 'id' => 'user' ), 
+			array( $userBtn, $caretBtn ) 
+		);
+
+		$navCollapse->parentNode->insertBefore( $userButtonGroup, $navCollapse );
+
+		$userPageLink = $this->renderUserPageLink();
+		$userIcon = $finder->query( '//*[contains(@class,"icon-user")]')->item(0);
+		if( $userIcon ) 
+			$userIcon->parentNode->insertBefore( $userPageLink, $userIcon );
+
 		$userTools = $this->renderUserTools();
-		$navCollapse->parentNode->insertBefore( $userButton, $navCollapse );
 		$button = $finder->query( '//div[@id="user"]' );
-		$button->item(0)->appendChild( $userTools );
+		if( $button ) 
+			$button->item(0)->appendChild( $userTools );
 
 		// create dropdowns for nested list items
 		if( $sgNavbarOptions['dropdown'] ) {
@@ -143,7 +191,7 @@
 	*
 	* @ingroup Skins
 	*/
-	public function renderSpecial() { 
+	public function buildSpecial() { 
 		$finder = new DOMXPath( $this->doc );
 		$headerTextNodes = $finder->query( '//ul[contains(@class,"nav")]/li/text()' );
 		foreach( $headerTextNodes as $headerTextNode ) {
@@ -191,35 +239,57 @@
 		return $fragment;
 	}
 
+	private function renderButtonGroup( $groupAttrs, $buttons, $toString=false ) {
+		$groupAttrs['class'] .= ' btn-group';
+		
+		if( is_array( $groupAttrs ) ) {
+			$groupElement = Xml::openElement( 'div', $groupAttrs );
+
+			if( is_array( $buttons ) ) {
+				foreach( $buttons as $button ) {
+					$groupElement .= $this->renderButton( $button, true );
+				}
+			}
+
+			$groupElement.= Xml::closeElement('div');
+		}
+
+		if( $toString ) 
+			return $groupElement;
+		else {
+			$fragment = $this->doc->createDocumentFragment();
+			$fragment->appendXml( $groupElement );
+			return $fragment;
+		}
+	}
+
 	/**
-	* Render user button.
+	* Render button.
 	*
 	* @return DOMDocumentFragment
 	*	@ingroup Skins
 	*/
-	private function renderUserButton() {
-		$fragment = $this->doc->createDocumentFragment();
-		$userPage = array_shift( $this->skin->getPersonalTools() );
-			
-	
-// TODO make link
-			foreach( $userPage['links'] as $key => $val ) {
-				$xml .= $this->skin->makeLink( $key, $val );
-			}
+	private function renderButton( $btn, $toString = false ) {
 
-		$fragment->appendXml(
-			'<div id="user" class="btn-group pull-right">' .
-				'<button class="btn btn-success">' . 
-					'<i class="icon-user icon-white"> </i>' .
-					$xml .
-				'</button>' .
-				'<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">' .
-					'<span class="caret"> </span>' .
-				'</button>' .
-			'</div>'
-		);
+		$btnElement = Xml::openElement( $btn['tag'], $btn['attr'] ); 
+		$btnElement .= $btn['contents'];
+		foreach( $btn['children'] as $key => $val) {
+			$btnElement .= Xml::tags( 
+				$key,
+				$val['attr'],
+				$val['contents']
+			);
+		}
+		$btnElement .= Xml::closeElement( $btn['tag'] );
 
-		return $fragment;
+		if( $toString ) 
+			return $btnElement;
+		else {
+			$fragment = $this->doc->createDocumentFragment();
+			$fragment->appendXml( $btnElement);
+			return $fragment;
+		}
+
 	}
 
 	/*
@@ -256,6 +326,17 @@
 		}
 		$fragment->appendXml( $xml );
 
+		return $fragment;
+	}
+
+	private function renderUserPageLink() {
+		$fragment = $this->doc->createDocumentFragment();
+		// user page link
+		$userPage = array_shift( $this->skin->getPersonalTools() );
+		foreach( $userPage['links'] as $key => $val ) {
+			$userLink .= $this->skin->makeLink( $key, $val );
+		}
+		$fragment->appendXml( $userLink );
 		return $fragment;
 	}
 
