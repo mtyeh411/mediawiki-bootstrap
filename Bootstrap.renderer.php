@@ -100,6 +100,8 @@
 
 		// render special words
 		$this->renderSpecial();
+		$searchBar = $finder->query('//form[contains(@class,"search")]')->item(0);
+		if( $searchBar ) $searchBar->setAttribute('class', 'navbar-search' );
 
 		// append user tools
 		$userButton = $this->renderUserButton();
@@ -197,12 +199,19 @@
 	*/
 	private function renderUserButton() {
 		$fragment = $this->doc->createDocumentFragment();
+		$userPage = array_shift( $this->skin->getPersonalTools() );
+			
+	
+// TODO make link
+			foreach( $userPage['links'] as $key => $val ) {
+				$xml .= $this->skin->makeLink( $key, $val );
+			}
 
 		$fragment->appendXml(
 			'<div id="user" class="btn-group pull-right">' .
 				'<button class="btn btn-success">' . 
 					'<i class="icon-user icon-white"> </i>' .
-					$GLOBALS['wgUser'] .
+					$xml .
 				'</button>' .
 				'<button class="btn btn-success dropdown-toggle" data-toggle="dropdown">' .
 					'<span class="caret"> </span>' .
@@ -213,10 +222,16 @@
 		return $fragment;
 	}
 
+	/*
+	*	Render an unordered list of link items from Wiki personal url's.
+	*
+	*	@return DOMDocumentFragment
+	*	@ingroup Skins
+	*/
 	private function renderUserTools() {
 		// create document fragment of user tool list items 
 		$userTools = $this->skin->getPersonalTools();
-array_shift($userTools);
+		array_shift( $userTools );
 		$fragment = $this->renderDataLinks( $userTools );
 
 		return $fragment;
@@ -252,7 +267,6 @@ array_shift($userTools);
 	*/
 	private function renderDropdowns() {
 		$finder = new DOMXPath( $this->doc );
-//$dropdownMenuPath = '//ul[contains(@class,"nav")]/li/ul';
 		$dropdownMenuPath = '//*[contains(@class,"dropdown-toggle")]/../ul';
 			
 		// create togglable dropdown menus
@@ -270,6 +284,12 @@ array_shift($userTools);
 
 	}
 
+	/*
+	*	Iterate through nodes of a given XPath path and create/replace each node with a togglable HTML elements of the given tag type
+	*	
+	*	@params XPath path string, DOM node tag string
+	*	@ingroup Skins
+	*/
 	private function makePathTogglable( $path, $tagType ) {
 		$finder = new DOMXPath( $this->doc );
 
@@ -291,6 +311,12 @@ array_shift($userTools);
 	}
 
 
+	/*
+	*	Replace a given node with a togglable node of a given HTML tag 
+	*
+	*	@param DOMNode, String, DOMNode tag string
+	*	@ingroup Skins
+	*/
 	private function makeTogglable( $node, $text, $tagType) {
 		if( $node instanceof DOMNode ) {
 			// if node tag is not the same as 
