@@ -76,7 +76,13 @@
 						<?php $this->printTrail(); ?>
 					</div>
 				</div>
-			</div>
+
+			<!-- ===== Footer ===== -->
+			<footer class="footer">
+				<?php $renderer->renderFooter(); ?>
+			</footer>
+
+			</div> <!-- container -->
 
 			</body>
 			</html>

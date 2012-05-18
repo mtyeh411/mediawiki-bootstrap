@@ -88,6 +88,7 @@
 		// get HTML-parsed MediaWiki page
 		$out = BootstrapRenderer::parsePage( $sgNavbarOptions['page'] );
 
+		if( $out ) {
 		// create dropdowns DOM fragment
 		$dropdownFrag= $this->doc->createDocumentFragment();
 		$dropdownFrag->appendXML( $out->getText() );
@@ -167,7 +168,44 @@
 
 		$result = $this->doc->saveXML( $doc->documentElement, true);
 		echo $result;
+		}
 
+		return $result;
+	}
+
+	public function renderFooter() {
+		global $sgFooterOptions;
+		$result = false;
+
+		$out = BootstrapRenderer::parsePage( $sgFooterOptions['page'] );
+
+		// generate DOM from HTML-parsed MediaWiki page
+		if( $out ) {
+			$this->doc = DOMDocument::loadXML( $out->getText() );
+			$result = $this->doc->saveXML( $doc->documentElement, true );	
+		} else { // use MediaWiki default footer
+			
+			foreach( $this->skin->getFooterLinks() as $category => $links ) {	
+				foreach( $links as $link ) {
+					print '<div class="span2">';
+					$this->skin->html( $link );
+					print '</div>';
+				}
+			}
+			
+			$footericons = $this->skin->getFooterIcons("icononly");
+			if( count( $footericons ) > 0 ) {
+				foreach( $footericons as $blockName => $footerIcons ) {
+					foreach( $footerIcons as $icon ) {
+						$result .= '<div class="span2 pull-right">';	
+						$result .= $this->skin->getSkin()->makeFooterIcon( $icon );
+						$result .= '</div>';
+					}
+				}
+			}
+		}
+
+		echo $result;
 		return $result;
 	}
 
@@ -183,7 +221,8 @@
 		$pageTitle = Title::newFromText( $page ); 
 		$article = new Article( $pageTitle ); 
 		$raw = $article->getRawText();
-		return $wgParser->parse( $raw, $pageTitle, ParserOptions::newFromUser($wgUser));
+		if( $raw ) 
+			return $wgParser->parse( $raw, $pageTitle, ParserOptions::newFromUser($wgUser));
 	}
 
 	/**
