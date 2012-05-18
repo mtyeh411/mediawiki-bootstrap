@@ -1,5 +1,15 @@
 
 /*
+*	edit form
+*/
+form#editform {
+	width: 100%;
+}
+form#editform textarea {
+	width: 100%;
+}
+
+/*
 *	footer
 */
 .footer {
