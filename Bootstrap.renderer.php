@@ -78,7 +78,10 @@
 						</a>
 
 						<!-- Title & logo -->
-						<a class="brand" href="#">' . $GLOBALS['wgSitename'] . '</a>
+						<a class="brand" href="' . 
+							$this->skin->data['nav_urls']['mainpage']['href'] .'">' . 
+							$GLOBALS['wgSitename'] . 
+						'</a>
 
 					<!-- Collapsible nav -->
 						<div class="nav-collapse">
@@ -216,6 +219,34 @@
 
 		$result = $this->doc->saveXML( $doc->documentElement, true);
 		echo $result;
+		return $result;
+	}
+
+	/**
+	*	Render category links.
+	*
+	*	@return DOMDocument
+	*	@ingroup Skins
+	*/
+	public function renderCatLinks() {
+		$result = false;
+
+		if( $this->skin->data['catlinks'] ) {
+			$this->doc = DOMDocument::loadXML( 
+				Xml::openElement( 'footer' ) .
+				$this->skin->data[ 'catlinks' ] .
+				Xml::closeElement( 'footer' )
+			);
+
+			$finder = new DOMXPath( $this->doc );
+			$container = $finder->query('//div[contains(@class,"catlinks")]')->item(0);
+			$container->setAttribute( 'class', $container->getAttribute('class') . 
+				' well' );
+	
+			$result = $this->doc->saveXML( $doc->documentElement, true );
+			echo $result;
+		}
+
 		return $result;
 	}
 

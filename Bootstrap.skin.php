@@ -81,7 +81,7 @@
 							</h1>
 						</div>	
 						<?php $this->html( 'bodycontent' ); ?>
-						<?php $this->html( 'catlinks' ); ?>
+						<?php $renderer->renderCatLinks(); ?>
 						<?php $this->html( 'dataAfterContent' ); ?>
 					</article>
 				</div> <!-- row -->
