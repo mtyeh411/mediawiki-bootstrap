@@ -35,19 +35,21 @@ The ```bootstrap.php``` file in the Bootstrap skin directory contains configurab
 
 ### Customizable components ###
 Currently, this skin allows customization on your navbar, sidebar, and footer.  Each of those three components are controlled by configuration mappings:
-0. ```sgNavbarOptions``` for navbar
-0. ```sgSidebarOptions``` for sidebar
-0. ```sgFooterOptions``` for footer
+* ```sgNavbarOptions``` for navbar
+* ```sgSidebarOptions``` for sidebar
+* ```sgFooterOptions``` for footer
 
 ### Navigation links ###
 This skin allows you to create your navigation, sidebar, and footer from any MediaWiki page on your wiki that you specify.  Please change the mapping for the ```page``` option for your component.
 
 Please note that navigation pages assume links (and section headers) are in a single unordered list, such as:
+```
     * Foo
       ** Foo1
       ** Foo2
     * Bar
     * [[Baz]]
+```
 
 Currently, two special keywords are handled:
 * SEARCH
