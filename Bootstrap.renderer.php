@@ -66,7 +66,7 @@
 
 		// generate DOM from boilerplate HTML
 		$this->doc = DOMDocument::loadXML('
-			<div class="navbar">
+			<nav class="navbar">
 				<div class="navbar-inner">
 					<div class="container">
 						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -83,7 +83,7 @@
 						</div>
 					</div>
 				</div>
-			</div>');
+			</nav>');
 
 		// get HTML-parsed MediaWiki page
 		$out = BootstrapRenderer::parsePage( $sgNavbarOptions['page'] );

@@ -1,5 +1,13 @@
 
 /*
+*	subpages (TODO: this should be in common/commonInterface.css)
+*/
+span.subpages {
+	display: block;
+	font-size: 12px;
+}
+
+/*
 * horizontal lists
 */
 ul.horizontal li {

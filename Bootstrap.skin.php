@@ -58,12 +58,12 @@
 				<div class="row-fluid">
 					
 					<!-- ===== Sidebar ===== -->
-					<div class="span3">
+					<aside class="span3">
 						<?php $renderer->renderSidebar(); ?>
-					</div>
+					</aside>
 
 					<!-- ===== Content ===== -->
-					<div class="span9">
+					<article class="span9">
 						<div class="page-header">
 							<h1>
 								<?php $this->html( 'title' ) ?>
@@ -73,14 +73,14 @@
 						<?php $this->html( 'bodycontent' ); ?>
 						<?php $this->html( 'catlinks' ); ?>
 						<?php $this->html( 'dataAfterContent' ); ?>
-						<?php $this->printTrail(); ?>
-					</div>
-				</div>
+					</article>
+				</div> <!-- row -->
+			</div> <!-- container -->
 
 			<!-- ===== Footer ===== -->
 			<?php $renderer->renderFooter(); ?>
 
-			</div> <!-- container -->
+			<?php $this->printTrail(); ?>
 
 			</body>
 			</html>
