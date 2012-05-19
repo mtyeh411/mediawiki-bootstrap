@@ -181,30 +181,38 @@
 
 		// generate DOM from HTML-parsed MediaWiki page
 		if( $out ) {
-			$this->doc = DOMDocument::loadXML( $out->getText() );
-			$result = $this->doc->saveXML( $doc->documentElement, true );	
-		} else { // use MediaWiki default footer
-			
+			$html = $out->getText();
+		} else { // use MediaWiki footer links & icons
+
 			foreach( $this->skin->getFooterLinks() as $category => $links ) {	
+				$html .= Xml::openElement('ul', array( 'class' => 'horizontal' ));
 				foreach( $links as $link ) {
-					print '<div class="span2">';
-					$this->skin->html( $link );
-					print '</div>';
+					$html .= Xml::openElement('li');
+					$html .= $this->skin->data[ $link ];
+					$html .= Xml::closeElement('li');	
 				}
+				$html .= Xml::closeElement('ul');	
 			}
 			
-			$footericons = $this->skin->getFooterIcons("icononly");
-			if( count( $footericons ) > 0 ) {
-				foreach( $footericons as $blockName => $footerIcons ) {
-					foreach( $footerIcons as $icon ) {
-						$result .= '<div class="span2 pull-right">';	
-						$result .= $this->skin->getSkin()->makeFooterIcon( $icon );
-						$result .= '</div>';
-					}
+			foreach( $this->skin->getFooterIcons("icononly") 
+				as $blockName => $footerIcons ) {
+				$html .= Xml::openElement('ul', array('class' => 'horizontal pull-right' ));
+				foreach( $footerIcons as $icon ) {
+					$html .= Xml::openElement('li');	
+					$html .= $this->skin->getSkin()->makeFooterIcon( $icon );
+					$html .= Xml::closeElement('li');
 				}
+				$html .= Xml::closeElement('ul');
 			}
 		}
 
+		$this->doc = DOMDocument::loadXML( 
+			Xml::openElement( 'footer', array( 'class' => 'footer' )) .
+			$html .
+			Xml::closeElement( 'footer' )
+		);
+
+		$result = $this->doc->saveXML( $doc->documentElement, true);
 		echo $result;
 		return $result;
 	}
@@ -405,7 +413,7 @@
 	}
 
 	/*
-	*	Iterate through nodes of a given XPath path and create/replace each node with a togglable HTML elements of the given tag type
+	*	Iterate through nodes of a given XPath path and create/replace each node with a togglable HTMLelements of the given tag type
 	*	
 	*	@params XPath path string, DOM node tag string
 	*	@ingroup Skins

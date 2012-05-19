@@ -78,9 +78,7 @@
 				</div>
 
 			<!-- ===== Footer ===== -->
-			<footer class="footer">
-				<?php $renderer->renderFooter(); ?>
-			</footer>
+			<?php $renderer->renderFooter(); ?>
 
 			</div> <!-- container -->
 

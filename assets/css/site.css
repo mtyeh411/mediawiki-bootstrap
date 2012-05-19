@@ -1,5 +1,14 @@
 
 /*
+* horizontal lists
+*/
+ul.horizontal li {
+	display: inline;
+	list-style-type: none;
+	padding-right: 5%;
+}
+
+/*
 *	edit form
 */
 form#editform {
