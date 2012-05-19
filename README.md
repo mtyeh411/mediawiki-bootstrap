@@ -73,3 +73,7 @@ The nested list items of your navigation links page are used for the dropdown me
 Bootstrap dropdown menus can be turned on or off by setting the ```dropdown``` configuration mapping to ```true```. 
 
 By default, dropdowns for all components are turned on.
+
+## Screenshots ##
+![Full screen example](http://db.tt/ye7ULcKC)
+![Small screen responsive example](http://db.tt/0llWKCrz)
