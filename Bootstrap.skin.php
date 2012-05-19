@@ -55,8 +55,18 @@
 
 			<!-- ===== Page ===== -->
 			<div class="container-fluid">
+			
+				<!-- ===== Site notice ===== -->
+					<?php if($this->data['sitenotice']) { ?>
+						<header class="row-fluid">
+							<div id="siteNotice" class="alert alert-info span12">
+								<button class="close" data-dismiss="alert">x</button>
+								<?php $this->html('sitenotice') ?>
+							</div>
+						</header>
+					<?php } ?>
+
 				<div class="row-fluid">
-					
 					<!-- ===== Sidebar ===== -->
 					<aside class="span3">
 						<?php $renderer->renderSidebar(); ?>

@@ -35,6 +35,7 @@
 			'bootstrap/assets/js/bootstrap-dropdown.js',
 			'bootstrap/assets/js/bootstrap-transition.js',
 			'bootstrap/assets/js/bootstrap-collapse.js',
+			'bootstrap/assets/js/bootstrap-alert.js',
 		),
 		'dependencies' => array(
 			// jquery automatically loaded
