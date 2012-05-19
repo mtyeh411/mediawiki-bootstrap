@@ -44,7 +44,13 @@
 			$this->doc->documentElement->setAttribute('class','nav nav-stacked nav-' . $sgSidebarOptions['type']	);
 
 			// render special words
-			$this->buildSpecial();
+			$this->addSpecial();
+
+			// re-size form input fields
+			$finder = new DOMXPath ( $this->doc );
+			foreach( $finder->query('//input') as $input ) {
+				$input->setAttribute( 'class', $input->getAttribute('class') . ' span12' );
+			}
 
 			// create dropdowns for nested list items
 			if( $sgSidebarOptions['dropdown'] ) {
@@ -105,7 +111,7 @@
 			$navCollapse->appendChild( $dropdownFrag );
 
 			// render special words
-			$this->buildSpecial();
+			$this->addSpecial();
 			$searchBar = $finder->query('//form[contains(@class,"search")]')->item(0);
 			if( $searchBar ) $searchBar->setAttribute('class', 'navbar-search' );
 
@@ -271,7 +277,7 @@
 	*
 	* @ingroup Skins
 	*/
-	public function buildSpecial() { 
+	public function addSpecial() { 
 		$finder = new DOMXPath( $this->doc );
 		$headerTextNodes = $finder->query( '//ul[contains(@class,"nav")]/li/text()' );
 		foreach( $headerTextNodes as $headerTextNode ) {
