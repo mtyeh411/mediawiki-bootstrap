@@ -460,11 +460,11 @@
 	private function makePathTogglable( $path, $tagType ) {
 		$finder = new DOMXPath( $this->doc );
 
-		foreach( $finder->query( $path ) as $header ) {
+		foreach( $finder->query( $path ) as $key=>$header ) {
 			
 			// get the single text value 
 			if( $header->nodeType != 3 ) { // if not a textnode
-				$headerText = $finder->query( $path . '/text()')->item(0);
+				$headerText = $finder->query( $path . '/text()')->item($key);
 				$headerTextValue = $headerText->nodeValue;
 			} else
 				$headerTextValue = $header->nodeValue;
