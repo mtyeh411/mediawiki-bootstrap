@@ -12,6 +12,7 @@ This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki B
 
 ## Requirements ##
 * [MediaWiki 1.19+](http://www.mediawiki.org/wiki/Download) (patches for prior versions coming soon)
+* 'Bootstrap:Navbar', 'Bootstrap:Siderbar', and 'Bootstrap:Footer' wiki pages (unless you choose to override [default navigation values](https://github.com/mtyeh411/mediawiki-bootstrap/#navigation-links))
 
 ## Installation ##
 To install, please clone this project to the MediaWiki skins directory.
@@ -19,11 +20,6 @@ To install, please clone this project to the MediaWiki skins directory.
 In ```LocalSettings.php```, add
     require_once( '$IP/skins/bootstrap/bootstrap.php');
 where ```$IP``` represents your MediaWiki root directory and ```skins/bootstrap``` is the cloned repository path.
-
-## Directory structure ##
-All Bootstrap dependencies are located in the ```bootstrap``` directory.  The ```bootstrap``` directory is a [git submodule](http://git-scm.com/docs/git-submodule), allowing the Bootstrap project to remain independent.
-
-The ```assets``` directory contains javascript, css, and images for Bootstrap.  These are artifacts of Bootstraps Makefile.  Please be sure to run Bootstrap's Makefile into the ```assets``` directory.  For those without the LESS compiler, you may use the existing assets. 
 
 ## Overriding Bootstrap styles ##
 The ```assets``` directory contains site-specific rules and behavior which you may use to customize the Bootstrap skin to your wiki site (see ```assets/css/site.css``` and ```assets/js/site.js```).
@@ -41,6 +37,8 @@ Currently, this skin allows customization on your navbar, sidebar, and footer.  
 
 ### Navigation links ###
 This skin allows you to create your navigation, sidebar, and footer from any MediaWiki page on your wiki that you specify.  Please change the mapping for the ```page``` option for your component.
+
+By default, the skin sets the page values for each customizable component to 'Bootstrap:Navbar', 'Bootstrap:Sidebar', and 'Bootstrap:Footer'.
 
 Please note that navigation pages assume links (and section headers) are in a single unordered list, such as:
 ```
@@ -73,6 +71,11 @@ The nested list items of your navigation links page are used for the dropdown me
 Bootstrap dropdown menus can be turned on or off by setting the ```dropdown``` configuration mapping to ```true```. 
 
 By default, dropdowns for all components are turned on.
+
+## Directory structure ##
+All Bootstrap dependencies are located in the ```bootstrap``` directory.  The ```bootstrap``` directory is a [git submodule](http://git-scm.com/docs/git-submodule), allowing the Bootstrap project to remain independent.
+
+The ```assets``` directory contains javascript, css, and images for Bootstrap.  These are artifacts of Bootstraps Makefile.  Please be sure to run Bootstrap's Makefile into the ```assets``` directory.  For those without the LESS compiler, you may use the existing assets. 
 
 ## Screenshots ##
 ![Full screen example](http://db.tt/ye7ULcKC)
