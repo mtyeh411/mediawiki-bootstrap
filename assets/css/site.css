@@ -1,5 +1,17 @@
 
 /*
+*	popup balloon fix for Semantic Maps
+*/
+.maps-map img {
+	max-width: none;
+}
+.maps-map label {
+	width: auto;
+	display: inline;
+}
+ 
+
+/*
 *	subpages (TODO: this should be in common/commonInterface.css)
 */
 span.subpages {
