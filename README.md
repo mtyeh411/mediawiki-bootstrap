@@ -12,7 +12,7 @@ This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki B
 
 ## Requirements ##
 * [MediaWiki 1.19+](http://www.mediawiki.org/wiki/Download) (patches for prior versions coming soon)
-* 'Bootstrap:Navbar', 'Bootstrap:Siderbar', and 'Bootstrap:Footer' wiki pages (unless you choose to override [default navigation values](https://github.com/mtyeh411/mediawiki-bootstrap/#navigation-links))
+* 'Bootstrap:Navbar', 'Bootstrap:Sidebar', and 'Bootstrap:Footer' wiki pages (unless you choose to override [default navigation values](https://github.com/mtyeh411/mediawiki-bootstrap/#navigation-links))
 
 ## Installation ##
 To install, please clone this project to the MediaWiki skins directory.
