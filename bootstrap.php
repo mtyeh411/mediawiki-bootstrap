@@ -30,12 +30,8 @@
 			'bootstrap/assets/css/site.css',
 		),
 		'scripts' => array(
-			//'bootstrap/assets/site.js',
-			//'bootstrap/assets/js/bootstrap-tabs.js',
-			'bootstrap/assets/js/bootstrap-dropdown.js',
-			'bootstrap/assets/js/bootstrap-transition.js',
-			'bootstrap/assets/js/bootstrap-collapse.js',
-			'bootstrap/assets/js/bootstrap-alert.js',
+			'bootstrap/assets/js/site.js',
+			'bootstrap/assets/js/bootstrap.js',
 		),
 		'dependencies' => array(
 			// jquery automatically loaded
@@ -44,6 +40,10 @@
 		'localBasePath' => &$GLOBALS['wgStyleDirectory'],
 	);	
 
+	// MW 1.19 ships with jQuery 1.7.1
+	if( !version_compare( $wgVersion, '1.19', '==')) {
+	array_unshift($wgResourceModules['skins.bootstrap']['scripts'], 'bootstrap/assets/js/jquery-1.7.1.min.js');
+	}
 	
 	$sgNavbarOptions['page'] = 'Bootstrap:Navbar';
 	$sgNavbarOptions['dropdown'] = true; 
