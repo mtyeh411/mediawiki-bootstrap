@@ -11,7 +11,7 @@ Initial tests have confirmed proper compatibility with MediaWiki extensions, suc
 This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki Bootstrap projects form [Aaronpk](https://github.com/aaronpk/Bootstrap-Skin) and [Borkweb](https://github.com/borkweb/bootstrap-mediawiki).
 
 ## Requirements ##
-* [MediaWiki 1.19+](http://www.mediawiki.org/wiki/Download) (patches for prior versions coming soon)
+* [MediaWiki 1.18+](http://www.mediawiki.org/wiki/Download) (patches for prior versions coming soon)
 * 'Bootstrap:Navbar', 'Bootstrap:Sidebar', and 'Bootstrap:Footer' wiki pages (unless you choose to override [default navigation values](https://github.com/mtyeh411/mediawiki-bootstrap/#navigation-links))
 
 ## Installation ##
