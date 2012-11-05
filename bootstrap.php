@@ -23,15 +23,16 @@
 	$wgAutoloadClasses['BootstrapRenderer'] = dirname( __FILE__ ).'/Bootstrap.renderer.php';
 	$wgExtensionMessagesFiles['Bootstrap'] = dirname( __FILE__ ).'/Bootstrap.i18n.php';
 
+	$skinDir = array_pop( explode( "/", dirname( __FILE__ ) ) );
 	$wgResourceModules['skins.bootstrap'] = array(
 		'styles' => array(
-			'bootstrap/assets/css/bootstrap.css',
-			'bootstrap/assets/css/bootstrap-responsive.css',
-			'bootstrap/assets/css/site.css',
+			$skinDir . '/assets/css/bootstrap.css',
+			$skinDir . '/assets/css/bootstrap-responsive.css',
+			$skinDir . '/assets/css/site.css',
 		),
 		'scripts' => array(
-			'bootstrap/assets/js/site.js',
-			'bootstrap/assets/js/bootstrap.js',
+			$skinDir . '/assets/js/site.js',
+			$skinDir . '/assets/js/bootstrap.js',
 		),
 		'dependencies' => array(
 			// jquery automatically loaded
@@ -42,7 +43,7 @@
 
 	// MW 1.19 ships with jQuery 1.7.1
 	if( !version_compare( $wgVersion, '1.19', '==')) {
-	array_unshift($wgResourceModules['skins.bootstrap']['scripts'], 'bootstrap/assets/js/jquery-1.7.1.min.js');
+	array_unshift($wgResourceModules['skins.bootstrap']['scripts'], $skinDir . '/assets/js/jquery-1.7.1.min.js');
 	}
 	
 	$sgNavbarOptions['page'] = 'Bootstrap:Navbar';
