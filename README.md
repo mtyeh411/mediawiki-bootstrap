@@ -18,8 +18,8 @@ This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki B
 To install, please clone this project to the MediaWiki skins directory.
 
 In ```LocalSettings.php```, add
-    require_once( "$IP/skins/bootstrap/bootstrap.php");
-where ```$IP``` represents your MediaWiki root directory and ```skins/bootstrap``` is the cloned repository path.
+    require_once( "$IP/skins/mediwiki-bootstrap/bootstrap.php");
+where ```$IP``` represents your MediaWiki root directory and ```skins/mediawiki-bootstrap``` is the cloned repository path.
 
 ## Overriding Bootstrap styles ##
 The ```assets``` directory contains site-specific rules and behavior which you may use to customize the Bootstrap skin to your wiki site (see ```assets/css/site.css``` and ```assets/js/site.js```).
@@ -78,5 +78,8 @@ All Bootstrap dependencies are located in the ```bootstrap``` directory.  The ``
 The ```assets``` directory contains javascript, css, and images for Bootstrap.  These are artifacts of Bootstraps Makefile.  Please be sure to run Bootstrap's Makefile into the ```assets``` directory.  For those without the LESS compiler, you may use the existing assets. 
 
 ## Screenshots ##
+Full screen resolution view:
 ![Full screen example](http://db.tt/ye7ULcKC)
+
+Mobile responsive view (with opened navbar):
 ![Small screen responsive example](http://db.tt/0llWKCrz)
