@@ -23,6 +23,7 @@
 	public function __construct( $skin, $data ) {
 		$this->skin = $skin;
 		$this->data = $data;
+		$this->doc = new DOMDocument();
 	}
 
 	/*
@@ -418,7 +419,8 @@
 	private function renderUserPageLink() {
 		$fragment = $this->doc->createDocumentFragment();
 		// user page link
-		$userPage = array_shift( $this->skin->getPersonalTools() );
+		$arr = $this->skin->getPersonalTools();
+		$userPage = array_shift( $arr );
 		foreach( $userPage['links'] as $key => $val ) {
 			$userLink .= $this->skin->makeLink( $key, $val );
 		}
