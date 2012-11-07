@@ -46,15 +46,11 @@
 	array_unshift($wgResourceModules['skins.bootstrap']['scripts'], $skinDir . '/assets/js/jquery-1.7.1.min.js');
 	}
 	
-	$sgNavbarOptions['page'] = 'Bootstrap:Navbar';
+	$sgNavbarOptions['page'] = 'MediaWiki:bootstrap-navbar';
 	$sgNavbarOptions['dropdown'] = true; 
 
-	$sgSubnavOptions['page'] = 'Boostrap:Subnav';
-	$sgSubnavOptions['type'] = 'pills'; # tabs, pills, list
-	$sgSubnavOptions['dropdown'] = true;
-
-	$sgSidebarOptions['page'] = 'Bootstrap:Sidebar';
+	$sgSidebarOptions['page'] = 'MediaWiki:bootstrap-sidebar';
 	$sgSidebarOptions['type'] = 'pills'; # tabs, pills, list
 	$sgSidebarOptions['dropdown'] = true;
 
-	$sgFooterOptions['page'] = 'Bootstrap:Footer';
+	$sgFooterOptions['page'] = 'MediaWiki:bootstrap-footer';

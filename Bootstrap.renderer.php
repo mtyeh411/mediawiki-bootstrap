@@ -78,12 +78,6 @@
 			<nav class="navbar">
 				<div class="navbar-inner">
 					<div class="container">
-						<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-							<span class="icon-bar"> </span>
-							<span class="icon-bar"> </span>
-							<span class="icon-bar"> </span>
-						</a>
-
 						<!-- Title & logo -->
 						<a class="brand" href="' . 
 							$this->skin->data['nav_urls']['mainpage']['href'] .'">' . 
@@ -97,91 +91,101 @@
 				</div>
 			</nav>');
 
+		// nav-collapse is our reference point
+		$finder = new DOMXPath( $this->doc );
+		$navCollapse = $finder->query('//div[contains(@class,"nav-collapse")]')->item(0);
+
 		// get HTML-parsed MediaWiki page
 		$out = BootstrapRenderer::parsePage( $sgNavbarOptions['page'] );
 
 		if( $out ) {
-			// create dropdowns DOM fragment
-			$dropdownFrag= $this->doc->createDocumentFragment();
+			// create & insert dropdowns DOM fragment
+			$dropdownFrag = $this->doc->createDocumentFragment();
 			$dropdownFrag->appendXML( $out->getText() );
 			$dropdownFrag->firstChild->setAttribute('class', 'nav');
-
-			// insert fragment into DOM document
-			$finder = new DOMXPath( $this->doc );
-			$navCollapse = $finder->query('//div[contains(@class,"nav-collapse")]')->item(0);
 			$navCollapse->appendChild( $dropdownFrag );
+
+			// create & insert responsive dropdown toggle
+			$navbarToggle = $this->doc->createDocumentFragment();
+			$navbarToggle->appendXML(
+				'<a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+					<span class="icon-bar"> </span>
+					<span class="icon-bar"> </span>
+					<span class="icon-bar"> </span>
+				</a>'
+			);
+			$navCollapse->parentNode->insertBefore( $navbarToggle, $finder->query('//a[contains(@class,"brand")]')->item(0) );
 
 			// render special words
 			$this->addSpecial();
 			$searchBar = $finder->query('//form[contains(@class,"search")]')->item(0);
 			if( $searchBar ) $searchBar->setAttribute('class', 'navbar-search' );
-
-			// create page button
-			$pageBtn = array(
-				'tag' => 'button',
-				'attr' => array('class' => 'btn btn-info dropdown-toggle pull-right',
-												'data-toggle' => 'dropdown',
-												'href' => '#'),
-				'children' => array(
-					'icon' => array( 'attr' => array('class' => 'icon-file icon-white' )),
-					'span' => array( 'attr' => array('class' => 'caret' ) )
-				)
-			);
-			$pageButton = $this->renderButtonGroup( 
-				array('class'=>'pull-right', 'id' => 'page' ), 
-				array( $pageBtn ) 
-			);
-
-			$navCollapse->parentNode->insertBefore( $pageButton, $navCollapse );
-			$pageTools = $this->renderDataLinks( $this->skin->data['content_actions'] );
-			$pageToggle = $finder->query( '//div[@id="page"]' );
-			if( $pageToggle ) 
-				$pageToggle ->item(0)->appendChild( $pageTools );
-
-			// create user button
-			$userBtn = array(
-				'tag' => 'button',
-				'attr' => array('class' => 'btn btn-warning' ),
-				'children' => array(
-					'icon' => array( 'attr'=>array('class' => 'icon-user icon-white' )),
-				)
-			);
-			$caretBtn = array(
-				'tag' => 'button',
-				'attr' => array('class' => 'btn btn-warning dropdown-toggle', 
-												'data-toggle'=>'dropdown'),
-				'children' => array(
-					'span' => array( 'attr' => array('class' => 'caret' ) )
-				)
-			); 
-			$userButtonGroup = $this->renderButtonGroup( 
-				array( 'class' => 'pull-right', 'id' => 'user' ), 
-				array( $userBtn, $caretBtn ) 
-			);
-	
-			$navCollapse->parentNode->insertBefore( $userButtonGroup, $navCollapse );
-	
-			$userPageLink = $this->renderUserPageLink();
-			$userIcon = $finder->query( '//*[contains(@class,"icon-user")]')->item(0);
-			if( $userIcon ) 
-				$userIcon->parentNode->insertBefore( $userPageLink, $userIcon );
-	
-			$userTools = $this->renderUserTools();
-			$button = $finder->query( '//div[@id="user"]' );
-			if( $button ) 
-				$button->item(0)->appendChild( $userTools );
-	
-			// create dropdowns for nested list items
-			if( $sgNavbarOptions['dropdown'] ) {
-				$this->makePathTogglable('//ul[contains(@class,"nav")]/li/a', 'a');
-				$this->makePathTogglable('//ul[contains(@class,"nav")]/li/text()', 'a');
-				$this->renderDropdowns();
-			}
-
-			$result = $this->doc->saveXML( $this->doc->documentElement, true);
-			echo $result;
 		}
 
+		// create page button
+		$pageBtn = array(
+			'tag' => 'button',
+			'attr' => array('class' => 'btn btn-info dropdown-toggle pull-right',
+											'data-toggle' => 'dropdown',
+											'href' => '#'),
+			'children' => array(
+				'icon' => array( 'attr' => array('class' => 'icon-file icon-white' )),
+				'span' => array( 'attr' => array('class' => 'caret' ) )
+			)
+		);
+		$pageButton = $this->renderButtonGroup( 
+			array('class'=>'pull-right', 'id' => 'page' ), 
+			array( $pageBtn ) 
+		);
+
+		$navCollapse->parentNode->insertBefore( $pageButton, $navCollapse );
+		$pageTools = $this->renderDataLinks( $this->skin->data['content_actions'] );
+		$pageToggle = $finder->query( '//div[@id="page"]' );
+		if( $pageToggle ) 
+			$pageToggle ->item(0)->appendChild( $pageTools );
+
+		// create user button
+		$userBtn = array(
+			'tag' => 'button',
+			'attr' => array('class' => 'btn btn-warning' ),
+			'children' => array(
+				'icon' => array( 'attr'=>array('class' => 'icon-user icon-white' )),
+			)
+		);
+		$caretBtn = array(
+			'tag' => 'button',
+			'attr' => array('class' => 'btn btn-warning dropdown-toggle', 
+											'data-toggle'=>'dropdown'),
+			'children' => array(
+				'span' => array( 'attr' => array('class' => 'caret' ) )
+			)
+		); 
+		$userButtonGroup = $this->renderButtonGroup( 
+			array( 'class' => 'pull-right', 'id' => 'user' ), 
+			array( $userBtn, $caretBtn ) 
+		);
+
+		$navCollapse->parentNode->insertBefore( $userButtonGroup, $navCollapse );
+
+		$userPageLink = $this->renderUserPageLink();
+		$userIcon = $finder->query( '//*[contains(@class,"icon-user")]')->item(0);
+		if( $userIcon ) 
+			$userIcon->parentNode->insertBefore( $userPageLink, $userIcon );
+
+		$userTools = $this->renderUserTools();
+		$button = $finder->query( '//div[@id="user"]' );
+		if( $button ) 
+			$button->item(0)->appendChild( $userTools );
+
+		// create dropdowns for nested list items
+		if( $sgNavbarOptions['dropdown'] ) {
+			$this->makePathTogglable('//ul[contains(@class,"nav")]/li/a', 'a');
+			$this->makePathTogglable('//ul[contains(@class,"nav")]/li/text()', 'a');
+			$this->renderDropdowns();
+		}
+
+		$result = $this->doc->saveXML( $this->doc->documentElement, true);
+		echo $result;
 		return $result;
 	}
 
