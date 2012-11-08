@@ -21,6 +21,7 @@
 		public function initPage( OutputPage $out ) {
 			parent::initPage( $out );
 			$out->addModuleScripts( 'skins.bootstrap' );
+			$out->addMeta("viewport", "width=device-width, initial-scale=1.0");
 		}
 
 		/**
