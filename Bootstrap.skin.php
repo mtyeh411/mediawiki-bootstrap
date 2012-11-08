@@ -55,9 +55,9 @@
 						$oldNavbarArticle = Article::newFromTitle(Title::newFromText( 'Bootstrap:Navbar'), $context );
 						$oldSidebarArticle = Article::newFromTitle(Title::newFromText( 'Bootstrap:Sidebar'), $context );
 						$oldFooterArticle = Article::newFromTitle(Title::newFromText( 'Bootstrap:Footer'), $context );
-						if( $oldNavbarArticle->getPage()->exists() ||
-								$oldSidebarArticle->getPage()->exists() ||
-								$oldFooterArticle->getPage()->exists() ) {
+						if( (method_exists($oldNavbarArticle,"getPage") && $oldNavbarArticle->getPage()->exists()) ||
+								(method_exists($oldSidebarArticle,"getPage") && $oldSidebarArticle->getPage()->exists()) ||
+								(method_exists($oldFooterArticle,"getPage") && $oldFooterArticle->getPage()->exists()) ) {
 							print( "DEPRECATION WARNING from MediaWiki-Bootstrap: delete Bootstrap:Navbar, Bootstrap:Sidebar, and Bootstrap:Footer, and place contents in MediaWiki:bootstrap-navbar, MediaWiki:bootstrap-sidebar, and MediaWiki:bootstrap-footer");
 						}
 				?>
