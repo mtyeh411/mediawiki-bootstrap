@@ -79,29 +79,31 @@
 							</div>
 						</header>
 					<?php } ?>
+		
+				<div class="container">
+								<div class="row-fluid">
+									<?php $sidebarArticle = Article::newFromTitle(Title::newFromText( $sgSidebarOptions['page']), $this->data['skin']->getContext() );
+												if( $sidebarArticle->getContent() != '' ) { ?>
+													<!-- ===== Sidebar ===== -->
+													<aside class="span3">
+														<?php $renderer->renderSidebar(); ?>
+													</aside>
+									<?php $contentSpanSize = "9"; } ?>
 
-				<div class="row-fluid">
-					<?php $sidebarArticle = Article::newFromTitle(Title::newFromText( $sgSidebarOptions['page']), $this->data['skin']->getContext() );
-								if( $sidebarArticle->getContent() != '' ) { ?>
-									<!-- ===== Sidebar ===== -->
-									<aside class="span3">
-										<?php $renderer->renderSidebar(); ?>
-									</aside>
-					<?php $contentSpanSize = "9"; } ?>
-
-					<!-- ===== Content ===== -->
-					<article class="span<?php echo $contentSpanSize?>" >
-						<div class="page-header">
-							<h1>
-								<?php $this->html( 'title' ) ?>
-								<small><?php $this->html( 'subtitle' ) ?></small>
-							</h1>
-						</div>	
-						<?php $this->html( 'bodycontent' ); ?>
-						<?php $renderer->renderCatLinks(); ?>
-						<?php $this->html( 'dataAfterContent' ); ?>
-					</article>
-				</div> <!-- row -->
+									<!-- ===== Content ===== -->
+									<article class="span<?php echo $contentSpanSize?>" >
+										<div class="page-header">
+											<h1>
+												<?php $this->html( 'title' ) ?>
+												<small><?php $this->html( 'subtitle' ) ?></small>
+											</h1>
+										</div>	
+										<?php $this->html( 'bodycontent' ); ?>
+										<?php $renderer->renderCatLinks(); ?>
+										<?php $this->html( 'dataAfterContent' ); ?>
+									</article>
+								</div> <!-- row -->
+					</div> <!-- container -->
 			</div> <!-- container -->
 
 			<!-- ===== Footer ===== -->
