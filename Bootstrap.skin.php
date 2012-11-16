@@ -69,44 +69,46 @@
 
 			<!-- ===== Page ===== -->
 			<div id="page" class="container-fluid">
+				<div class="container">
 
-				<!-- ===== Site notice ===== -->
-					<?php if($this->data['sitenotice']) { ?>
-						<header class="row-fluid">
-							<div id="siteNotice" class="alert alert-info span12">
-								<button class="close" data-dismiss="alert">x</button>
-								<?php $this->html('sitenotice') ?>
-							</div>
-						</header>
-					<?php } ?>
+					<!-- ===== Site notice ===== -->
+						<?php if($this->data['sitenotice']) { ?>
+							<header class="row-fluid">
+								<div id="siteNotice" class="alert alert-info span12">
+									<button class="close" data-dismiss="alert">x</button>
+									<?php $this->html('sitenotice') ?>
+								</div>
+							</header>
+						<?php } ?>
 
-				<div class="row-fluid">
-					<!-- ===== Sidebar ===== -->
-					<?php $sidebarArticle = Article::newFromTitle(Title::newFromText( $sgSidebarOptions['page']), $this->data['skin']->getContext() );
-						if( $sidebarArticle->getContent() != '' ) { ?>
-							<aside class="span3">
-								<?php $renderer->renderSidebar(); ?>
-							</aside>
-					<?php $contentSpanSize = "9"; } ?>
-	
-					<!-- ===== Article ===== -->	
-					<article class="span<?php echo $contentSpanSize?>" >
-						<div class="page-header">
-							<h1>
-								<?php $this->html( 'title' ) ?>
-								<small><?php $this->html( 'subtitle' ) ?></small>
-							</h1>
-						</div>	
-						<?php $this->html( 'bodycontent' ); ?>
-						<?php $renderer->renderCatLinks(); ?>
-						<?php $this->html( 'dataAfterContent' ); ?>
-					</article>
-				</div>
+					<div class="row-fluid">
+						<!-- ===== Sidebar ===== -->
+						<?php $sidebarArticle = Article::newFromTitle(Title::newFromText( $sgSidebarOptions['page']), $this->data['skin']->getContext() );
+							if( $sidebarArticle->getContent() != '' ) { ?>
+								<aside class="span3">
+									<?php $renderer->renderSidebar(); ?>
+								</aside>
+						<?php $contentSpanSize = "9"; } ?>
+		
+						<!-- ===== Article ===== -->	
+						<article class="span<?php echo $contentSpanSize?>" >
+							<div class="page-header">
+								<h1>
+									<?php $this->html( 'title' ) ?>
+									<small><?php $this->html( 'subtitle' ) ?></small>
+								</h1>
+							</div>	
+							<?php $this->html( 'bodycontent' ); ?>
+							<?php $renderer->renderCatLinks(); ?>
+							<?php $this->html( 'dataAfterContent' ); ?>
+						</article>
+					</div>
 
-				<!-- ===== Footer ===== -->
-				<?php $renderer->renderFooter(); ?>
+					<!-- ===== Footer ===== -->
+					<?php $renderer->renderFooter(); ?>
 
-			</div> <!-- fluid page container -->
+				</div> <!-- .container -->
+			</div> <!-- #page .container-fluid -->
 
 			<?php $this->printTrail(); ?>
 
