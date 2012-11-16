@@ -79,19 +79,17 @@
 							</div>
 						</header>
 					<?php } ?>
-<<<<<<< HEAD
 
-				<!-- ===== Sidebar ===== -->
-				<?php $sidebarArticle = Article::newFromTitle(Title::newFromText( $sgSidebarOptions['page']), $this->data['skin']->getContext() );
-					if( $sidebarArticle->getContent() != '' ) { ?>
-						<aside class="span3">
-							<?php $renderer->renderSidebar(); ?>
-						</aside>
-				<?php $contentSpanSize = "9"; } ?>
-	
-				<!-- ===== Article ===== -->	
 				<div class="row-fluid">
-					<!-- ===== Content ===== -->
+					<!-- ===== Sidebar ===== -->
+					<?php $sidebarArticle = Article::newFromTitle(Title::newFromText( $sgSidebarOptions['page']), $this->data['skin']->getContext() );
+						if( $sidebarArticle->getContent() != '' ) { ?>
+							<aside class="span3">
+								<?php $renderer->renderSidebar(); ?>
+							</aside>
+					<?php $contentSpanSize = "9"; } ?>
+	
+					<!-- ===== Article ===== -->	
 					<article class="span<?php echo $contentSpanSize?>" >
 						<div class="page-header">
 							<h1>
@@ -110,36 +108,6 @@
 					<?php $renderer->renderFooter(); ?>
 				</div>
 
-=======
-
-				<!-- ===== Sidebar ===== -->
-				<?php $sidebarArticle = Article::newFromTitle(Title::newFromText( $sgSidebarOptions['page']), $this->data['skin']->getContext() );
-							if( $sidebarArticle->getContent() != '' ) { ?>
-								<aside class="span3">
-									<?php $renderer->renderSidebar(); ?>
-								</aside>
-				<?php $contentSpanSize = "9"; } ?>
-	
-				<!-- ===== Article ===== -->	
-				<div class="container">
-						<!-- ===== Content ===== -->
-						<article class="span<?php echo $contentSpanSize?>" >
-							<div class="page-header">
-								<h1>
-									<?php $this->html( 'title' ) ?>
-									<small><?php $this->html( 'subtitle' ) ?></small>
-								</h1>
-							</div>	
-							<?php $this->html( 'bodycontent' ); ?>
-							<?php $renderer->renderCatLinks(); ?>
-							<?php $this->html( 'dataAfterContent' ); ?>
-						</article>
-
-						<!-- ===== Footer ===== -->
-						<?php $renderer->renderFooter(); ?>
-
-				</div> <!-- article container -->
->>>>>>> 7648665941645e5c9a4fab77a2479711ad4f75a1
 			</div> <!-- fluid page container -->
 
 			<?php $this->printTrail(); ?>
