@@ -1,3 +1,16 @@
+/*
+*	TOC	
+*/
+#toc {
+	padding: 5px;
+	font-size: 95%;
+}
+#toc ul {
+	list-style-type: none;
+	list-style-image: none;
+	margin-left: 0;
+	padding: 0;
+}
 
 /*
 *	popup balloon fix for Semantic Maps
