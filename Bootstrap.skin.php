@@ -68,8 +68,8 @@
 			<?php $renderer->renderNavbar(); ?>
 
 			<!-- ===== Page ===== -->
-			<div class="container-fluid">
-			
+			<div id="page" class="container-fluid">
+
 				<!-- ===== Site notice ===== -->
 					<?php if($this->data['sitenotice']) { ?>
 						<header class="row-fluid">
@@ -104,9 +104,7 @@
 				</div>
 
 				<!-- ===== Footer ===== -->
-				<div class="row-fluid">
-					<?php $renderer->renderFooter(); ?>
-				</div>
+				<?php $renderer->renderFooter(); ?>
 
 			</div> <!-- fluid page container -->
 

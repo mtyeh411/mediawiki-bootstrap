@@ -28,10 +28,10 @@
 		'styles' => array(
 			$skinDir . '/assets/css/bootstrap.css',
 			$skinDir . '/assets/css/bootstrap-responsive.css',
-			$skinDir . '/assets/css/site.css',
+			$skinDir . '/assets/css/mediawiki.css',
 		),
 		'scripts' => array(
-			$skinDir . '/assets/js/site.js',
+			$skinDir . '/assets/js/mediawiki.js',
 			$skinDir . '/assets/js/bootstrap.js',
 		),
 		'dependencies' => array(
