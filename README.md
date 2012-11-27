@@ -19,7 +19,7 @@ This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki B
 To install, please clone this project to the MediaWiki skins directory.
 
 In ```LocalSettings.php```, add
-    require_once( "$IP/skins/mediwiki-bootstrap/bootstrap.php");
+    require_once( "$IP/skins/mediawiki-bootstrap/bootstrap.php");
 where ```$IP``` represents your MediaWiki root directory and ```skins/mediawiki-bootstrap``` is the cloned repository path.
 
 ## Overriding Bootstrap styles ##
