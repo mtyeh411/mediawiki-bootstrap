@@ -24,18 +24,23 @@
 	$wgExtensionMessagesFiles['Bootstrap'] = dirname( __FILE__ ).'/Bootstrap.i18n.php';
 
 	$skinDir = array_pop( explode( "/", dirname( __FILE__ ) ) );
+	$skinAssets = $skinDir . '/assets/';
+	$bootstrapAssets = $skinDir . '/bootstrap/docs/assets/';
 	$wgResourceModules['skins.bootstrap'] = array(
 		'styles' => array(
-			$skinDir . '/assets/css/bootstrap.css',
-			$skinDir . '/assets/css/bootstrap-responsive.css',
-			$skinDir . '/assets/css/mediawiki.css',
+			$bootstrapAssets . 'css/bootstrap.css',
+			$bootstrapAssets . 'css/bootstrap-responsive.css',
+			$skinAssets . 'font-awesome.css',
+			$skinAssets . 'mediawiki.css',
+			$skinAssets . 'site.css'
 		),
 		'scripts' => array(
-			$skinDir . '/assets/js/mediawiki.js',
-			$skinDir . '/assets/js/bootstrap.js',
+			$bootstrapAssets . 'js/bootstrap.js',
+			$skinAssets . 'mediawiki.js',
+			$skinAssets . 'site.js'
 		),
 		'dependencies' => array(
-			// jquery automatically loaded
+			// jquery automatically loaded [MW > 1.19]
 		),
 		'remoteBasePath' => &$GLOBALS['wgStylePath'],
 		'localBasePath' => &$GLOBALS['wgStyleDirectory'],
@@ -43,7 +48,7 @@
 
 	// MW 1.19 ships with jQuery 1.7.1
 	if( !version_compare( $wgVersion, '1.19', '==')) {
-	array_unshift($wgResourceModules['skins.bootstrap']['scripts'], $skinDir . '/assets/js/jquery-1.7.1.min.js');
+	array_unshift($wgResourceModules['skins.bootstrap']['scripts'], $skinAssets . 'jquery-1.7.1.min.js');
 	}
 	
 	$sgNavbarOptions['page'] = 'MediaWiki:bootstrap-navbar';

@@ -6,7 +6,7 @@ This is a customizable responsive [Bootstrap](https://github.com/twitter/bootstr
 * HTML5 and CSS3
 * style customization through LESS CSS (requires LESS compiler)
 
-Initial tests have confirmed proper compatibility with MediaWiki extensions, such as those contained in the [Semantic Bundle](http://www.mediawiki.org/wiki/SemanticBundle).
+It is compatible with most MediaWiki extensions, such as those contained in the [Semantic Bundle](http://www.mediawiki.org/wiki/SemanticBundle).  If you notice any incompatibilities, please feel free to report a bug.
 
 This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki Bootstrap projects form [Aaronpk](https://github.com/aaronpk/Bootstrap-Skin) and [Borkweb](https://github.com/borkweb/bootstrap-mediawiki).
 
@@ -16,16 +16,20 @@ This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki B
 * ___DEPRECATION WARNING___ 'Bootstrap:Navbar', 'Bootstrap:Sidebar', 'Bootstrap:Footer' are no longer used for this skin.  Please _delete_ those pages from your wiki.
 
 ## Installation ##
-To install, please clone this project to the MediaWiki skins directory.
+To install, please clone this project to the MediaWiki skins directory. Because this project relies on external repos, you will need to initialize and update the project [submodules](http://git-scm.com/book/en/Git-Tools-Submodules#Cloning-a-Project-with-Submodules).  Install with the following commands:
+    git clone https://github.com/mtyeh411/mediawiki-bootstrap.git
+    git submodule init
+    git submodule update
+or
+    git clone --recursive https://github.com/mtyeh411/mediawiki-bootstrap.git
+    
 
 In ```LocalSettings.php```, add
     require_once( "$IP/skins/mediawiki-bootstrap/bootstrap.php");
 where ```$IP``` represents your MediaWiki root directory and ```skins/mediawiki-bootstrap``` is the cloned repository path.
 
-## Overriding Bootstrap styles ##
-The ```assets``` directory contains site-specific rules and behavior which you may use to customize the Bootstrap skin to your wiki site (see ```assets/css/site.css``` and ```assets/js/site.js```).
-
-Work is currently being done to provide LESS templates for site overrides.
+## Overriding skin styles ##
+The ```assets``` directory contains site-specific rules and behavior which you may use to customize the Bootstrap skin to your wiki site should you choose not to use MediaWiki:Common.css or MediaWiki:Common.js (see ```assets/site.css``` and ```assets/site.js```).  This may be the case should your customized skins and behavior be specific to your instance of the Bootstrap MediaWiki skin.
 
 ## Usage and Customization ##
 The ```bootstrap.php``` file in the Bootstrap skin directory contains configurable options for your skin output.
@@ -74,9 +78,7 @@ Bootstrap dropdown menus can be turned on or off by setting the ```dropdown``` c
 By default, dropdowns for all components are turned on.
 
 ## Directory structure ##
-All Bootstrap dependencies are located in the ```bootstrap``` directory.  The ```bootstrap``` directory is a [git submodule](http://git-scm.com/docs/git-submodule), allowing the Bootstrap project to remain independent.
-
-The ```assets``` directory contains javascript, css, and images for Bootstrap.  These are artifacts of Bootstraps Makefile.  Please be sure to run Bootstrap's Makefile into the ```assets``` directory.  For those without the LESS compiler, you may use the existing assets. 
+All dependencies are located in their own directories.  The ```bootstrap``` and ```Font-Awesome``` directories are [git submodules](http://git-scm.com/docs/git-submodule), allowing those projects to remain independent. 
 
 ## Screenshots ##
 Full screen resolution view:
