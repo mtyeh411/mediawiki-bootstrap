@@ -90,7 +90,7 @@
 					<?php $contentSpanSize = "8"; } ?>
 	
 					<!-- ===== Article ===== -->	
-					<article class="span<?php echo $contentSpanSize?>" >
+					<article id="content" class="span<?php echo $contentSpanSize?>" >
 						<div class="page-header">
 							<h1>
 								<?php $this->html( 'title' ) ?>
