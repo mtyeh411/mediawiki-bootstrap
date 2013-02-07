@@ -17,14 +17,18 @@ This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki B
 
 ## Installation ##
 To install, please clone this project to the MediaWiki skins directory. Because this project relies on external repos, you will need to initialize and update the project [submodules](http://git-scm.com/book/en/Git-Tools-Submodules#Cloning-a-Project-with-Submodules).  Install with the following commands:
+    
     git clone https://github.com/mtyeh411/mediawiki-bootstrap.git
     git submodule init
     git submodule update
+
 or
+    
     git clone --recursive https://github.com/mtyeh411/mediawiki-bootstrap.git
     
 
 In ```LocalSettings.php```, add
+    
     require_once( "$IP/skins/mediawiki-bootstrap/bootstrap.php");
 where ```$IP``` represents your MediaWiki root directory and ```skins/mediawiki-bootstrap``` is the cloned repository path.
 
@@ -46,13 +50,13 @@ This skin allows you to create your navigation, sidebar, and footer from any Med
 By default, the skin sets the page values for each customizable component to 'Bootstrap:Navbar', 'Bootstrap:Sidebar', and 'Bootstrap:Footer'.
 
 Please note that navigation pages assume links (and section headers) are in a single unordered list, such as:
-```
+
     * Foo
       ** Foo1
       ** Foo2
     * Bar
     * [[Baz]]
-```
+
 
 Currently, two special keywords are handled:
 * SEARCH
