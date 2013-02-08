@@ -1,12 +1,14 @@
-/*
-@import url(../../bootstrap/docs/assets/css/bootstrap.css);
-@import url(../../bootstrap/docs/assets/css/bootstrap-responsive.css);
-@import url(../../Font-Awesome/css/font-awesome.css);
-*/
+/* external links */
+#content a.external {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAMAAAC67D+PAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAGBQTFRF////AGb/AGbMmcz/M5nMZpnM////AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA7feQVwAAAAd0Uk5T////////ABpLA0YAAAA6SURBVHjaJMtBDgBABARBs4P/P3kbfZCKEE3aAmUFLVu5fCQfGQ7nciTV0GW9zp4Ds+B5SMcLfgEGADSKAPVZzedhAAAAAElFTkSuQmCC) center right no-repeat;
+	padding-right: 13px;
+}
+#content a.external[href ^="https://"],
+.link-https {
+	background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAoAAAAKCAYAAACNMs+9AAAAdUlEQVQYV2P4//8/Awxv3LThf0dXKxyD+DA5DEUg+tWrV2AaWTFcIboJyJrhCtGtRMcgebhpL2/4/v//Lvn//x+7IRjIfn8v+P/t055gxZgKPzaC8Y/nMYQVLpnM8f/zo3AqKfzyOOL/h/sh/59c9sBUSIyvAeRdJWjk4E//AAAAAElFTkSuQmCC) center right no-repeat;
+}
 
-/*
-*	TOC	
-*/
+/*   TOC  */
 #toc {
 	padding: 5px;
 	font-size: 95%;
@@ -18,9 +20,7 @@
 	padding: 0;
 }
 
-/*
-*	popup balloon fix for Semantic Maps
-*/
+/*  popup balloon fix for Semantic Maps  */
 .maps-map img {
 	max-width: none;
 }
@@ -30,26 +30,20 @@
 }
  
 
-/*
-*	subpages (TODO: this should be in common/commonInterface.css)
-*/
+/*  subpages (TODO: this should be in common/commonInterface.css)  */
 span.subpages {
 	display: block;
 	font-size: 12px;
 }
 
-/*
-* horizontal lists
-*/
+/*  horizontal lists  */
 ul.horizontal li {
 	display: inline;
 	list-style-type: none;
 	padding-right: 5%;
 }
 
-/*
-*	edit form
-*/
+/*  edit form  */
 form#editform {
 	width: 100%;
 }
@@ -57,9 +51,7 @@ form#editform textarea {
 	width: 100%;
 }
 
-/*
-*	footer
-*/
+/*  footer  */
 .footer {
 	font-size: 0.85em;
 	margin-top: 45px;
@@ -71,9 +63,7 @@ form#editform textarea {
 	color: #555;
 }
 
-/*
-* icon paddings
-*/
+/*  icon paddings  */
 .icon-user {
 	margin-right: 4px;
 }
@@ -81,16 +71,12 @@ form#editform textarea {
  	margin-left: 4px;
 }
 
-/*
-* pad headings
-*/
+/*  pad headings  */
 h1, h2, h3, h4, h5, h6 {
 	margin-bottom: 10px;
 }
 
-/*
-* wiki red links
-*/
+/*  wiki red links  */
 a.new {
 	color: red;
 }
