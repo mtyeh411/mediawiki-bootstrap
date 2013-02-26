@@ -74,7 +74,7 @@
 		$result = false;
 
 		// generate DOM from boilerplate HTML
-		$this->doc = DOMDocument::loadXML('
+		$this->doc = DOMDocument::loadHTML('
 			<nav class="navbar">
 				<div class="navbar-inner">
 					<div class="container">
@@ -184,7 +184,7 @@
 			$this->renderDropdowns();
 		}
 
-		$result = $this->doc->saveXML( $this->doc->documentElement, true);
+		$result = $this->doc->saveHTML();
 		echo $result;
 		return $result;
 	}
