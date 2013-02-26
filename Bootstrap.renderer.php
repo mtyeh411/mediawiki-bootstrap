@@ -62,7 +62,7 @@
 				$this->renderDropdowns();
 			}
 	
-			$result = $this->doc->saveXML( $this->doc->documentElement, true);
+			$result = $this->doc->saveHTML();
 			echo $result;
 		}
 
@@ -228,7 +228,7 @@
 			Xml::closeElement( 'footer' )
 		);
 
-		$result = $this->doc->saveXML( $this->doc->documentElement, true);
+		$result = $this->doc->saveHTML();
 		echo $result;
 		return $result;
 	}
@@ -254,7 +254,7 @@
 			$container->setAttribute( 'class', $container->getAttribute('class') . 
 				' well' );
 	
-			$result = $this->doc->saveXML( $this->doc->documentElement, true );
+			$result = $this->doc->saveHTML();
 			echo $result;
 		}
 
