@@ -12,7 +12,7 @@
 <!ENTITY dropdown-menu-class "dropdown-menu">
 <!ENTITY dropdown-toggle-class "dropdown-toggle">
 <!ENTITY dropdown-data-toggle "dropdown">
-<!ENTITY collapse-data-toggle "dropdown">
+<!ENTITY collapse-data-toggle "collapse">
 
 <!-- icon entities -->
 <!ENTITY icon-caret-class "caret">
