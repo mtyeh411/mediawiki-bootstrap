@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- nav entities -->
+<!ENTITY nav-collapse-class "nav-collapse">
+<!ENTITY nav-class "nav">
+<!ENTITY nav-stacked-class "nav-stacked">
+<!ENTITY nav-pills-class "nav-pills">
+<!ENTITY nav-list-class "nav-list">
+<!ENTITY nav-tabs-class "nav-tabs">
+
+<!-- dropdown entities -->
+<!ENTITY dropdown-class "dropdown">
+<!ENTITY dropdown-menu-class "dropdown-menu">
+<!ENTITY dropdown-toggle-class "dropdown-toggle">
+<!ENTITY dropdown-data-toggle "dropdown">
+<!ENTITY collapse-data-toggle "dropdown">
+
+<!-- icon entities -->
+<!ENTITY icon-caret-class "caret">
+<!ENTITY icon-bar-class "icon-bar">
+
+<!-- shortcuts -->
+<!ENTITY sidebar-nav "&nav-class; &nav-stacked-class;">
+<!ENTITY navbar-nav "&nav-class;">
+<!ENTITY site-tool-group "pull-right btn-group">

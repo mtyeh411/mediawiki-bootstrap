@@ -21,6 +21,7 @@
 	$wgValidSkinNames['bootstrap'] = 'Bootstrap';
 	$wgAutoloadClasses['SkinBootstrap'] = dirname( __FILE__ ).'/Bootstrap.skin.php';
 	$wgAutoloadClasses['BootstrapRenderer'] = dirname( __FILE__ ).'/Bootstrap.renderer.php';
+	$wgAutoloadClasses['DOMDebugPrinter'] = dirname( __FILE__ ).'/DOMDebugPrinter.php';
 	$wgExtensionMessagesFiles['Bootstrap'] = dirname( __FILE__ ).'/Bootstrap.i18n.php';
 
 	$skinDirParts = explode( "/", dirname( __FILE__ ) );
