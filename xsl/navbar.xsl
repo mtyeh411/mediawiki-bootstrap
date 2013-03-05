@@ -19,15 +19,15 @@
                     
                     <a class="brand"></a>
                     
+                    <div id="page" class="&site-tool-group;"></div>
+                    
+                    <div id="user" class="&site-tool-group;"></div>
+                    
                     <div class="&nav-collapse-class;">
                         <xsl:apply-templates select="ul[1]" mode="topLevel">
                             <xsl:with-param name="class">&navbar-nav;</xsl:with-param>
                         </xsl:apply-templates>
                     </div>
-                    
-                    <div id="page" class="&site-tool-group;"></div>
-                    
-                    <div id="user" class="&site-tool-group;"></div>
                 </div>
             </div>
         </nav>
