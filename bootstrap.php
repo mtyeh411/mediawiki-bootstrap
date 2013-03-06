@@ -24,7 +24,7 @@
 	$wgAutoloadClasses['DOMDebugPrinter'] = dirname( __FILE__ ).'/DOMDebugPrinter.php';
 	$wgExtensionMessagesFiles['Bootstrap'] = dirname( __FILE__ ).'/Bootstrap.i18n.php';
 
-	$skinDirParts = explode( "/", dirname( __FILE__ ) );
+	$skinDirParts = explode( DIRECTORY_SEPARATOR, dirname( __FILE__ ) );
 	$skinDir = array_pop( $skinDirParts );
 	$skinAssets = $skinDir . '/assets/';
 	$bootstrapAssets = $skinDir . '/bootstrap/docs/assets/';
