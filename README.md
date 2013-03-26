@@ -34,6 +34,8 @@ where ```$IP``` represents your MediaWiki root directory and ```skins/mediawiki-
 
 NOTE: Due to the way ResourceLoader handles relative paths in CSS files, Font Awesome assumes that your Bootstrap skin is located in ```skins/mediawiki-bootstrap```.  If you have a different path, you will need to change the path in ```assets/font-awesome.css```.
 
+To activate the skin for your entire wiki, set `$wgDefaultSkin = "bootstrap";` in your `LocalSettings.php` file.
+
 ## Overriding skin styles ##
 The ```assets``` directory contains site-specific rules and behavior which you may use to customize the Bootstrap skin to your wiki site should you choose not to use MediaWiki:Common.css or MediaWiki:Common.js (see ```assets/site.css``` and ```assets/site.js```).  This may be the case should your customized skins and behavior be specific to your instance of the Bootstrap MediaWiki skin.
 
