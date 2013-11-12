@@ -287,15 +287,16 @@
 					$fragment= $this->renderSearch( $doc );
 					$headerTextNode->parentNode->replaceChild( $fragment, $headerTextNode );
 					break;
-				case 'TOOLBOX': 
+				case 'TOOLBOX':
 					$fragment= $this->renderDataLinks( $this->skin->getToolbox() );
 					$headerTextNode->parentNode->appendChild( $doc->importNode($fragment,true) );
+                                        $headerTextNode->nodeValue = 'Toolbox';
 					break;
 				case 'LANGUAGES':
 					if( $this->skin->data['language_urls'] ) {
 						$fragment = $this->renderDataLinks( $this->skin->data['language_urls'] );
 						$headerTextNode->parentNode->appendChild( $fragment );
-					} else 
+					} else
 						$headerTextNode->parentNode->removeChild( $headerTextNode );
 					break;
 				default:
