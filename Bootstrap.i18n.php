@@ -13,5 +13,13 @@
 	*/
 	$messages['en'] = array(
 		'skinname-bootstrap' => "Bootstrap",
-		'bootstrap-desc' => "Bootstrap skin",
+		'bootstrap-desc' => "Provides a skin utilizing Twitter's Bootstrap"
+	);
+
+	/** German (Deutsch)
+	* @author Kghbln
+	*/
+	$messages['de'] = array(
+        	'skinname-bootstrap' => "Strapping",
+        	'bootstrap-desc' => "Stellt eine auf Twitters „Bootstrap“ gestützte Benutzeroberfläche bereit"
 	);
