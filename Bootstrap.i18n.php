@@ -20,6 +20,6 @@
 	* @author Kghbln
 	*/
 	$messages['de'] = array(
-        	'skinname-bootstrap' => "Strapping",
+        	'skinname-bootstrap' => "Bootstrap",
         	'bootstrap-desc' => "Stellt eine auf Twitters „Bootstrap“ gestützte Benutzeroberfläche bereit"
 	);
