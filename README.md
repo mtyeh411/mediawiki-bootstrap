@@ -19,6 +19,7 @@ This skin is based loosely off the MediaWiki Vector skin and similar MediaWiki B
 To install, please clone this project to the MediaWiki skins directory. Because this project relies on external repos, you will need to initialize and update the project [submodules](http://git-scm.com/book/en/Git-Tools-Submodules#Cloning-a-Project-with-Submodules).  Install with the following commands:
     
     git clone https://github.com/mtyeh411/mediawiki-bootstrap.git
+    cd mediawiki-bootstrap
     git submodule init
     git submodule update
 
