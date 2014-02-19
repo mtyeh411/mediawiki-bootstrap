@@ -92,7 +92,7 @@
 					<!-- ===== Article ===== -->	
 					<article id="content" class="span<?php echo $contentSpanSize?>" >
 						<div class="page-header">
-							<h1>
+							<h1 class=”firstHeading” id=”firstHeading">
 								<?php $this->html( 'title' ) ?>
 								<small><?php $this->html( 'subtitle' ) ?></small>
 							</h1>
