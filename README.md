@@ -1,3 +1,5 @@
+** NO LONGER MAINTAINED **
+
 ## Description ##
 This is a customizable responsive [Bootstrap](https://github.com/twitter/bootstrap) [MediaWiki](http://www.mediawiki.org) skin.  With it, your MediaWiki skin can take advantage of some of the great features from Bootstrap:
 * Responsive design
